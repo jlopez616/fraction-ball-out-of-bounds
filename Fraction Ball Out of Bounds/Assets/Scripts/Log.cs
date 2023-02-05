@@ -43,38 +43,38 @@ public class Log
     public Log(string action, string shotHit, double priorScore)
     {
         actionType = action;
-        playerID = GameHandler.playerId;
-        date_and_time = GameHandler.time;
-        //shoot = GameHandler.lastAction;
+        playerID = TaskGenerator.playerId;
+        date_and_time = TaskGenerator.time;
+        //shoot = TaskGenerator.lastAction;
         x_pos = Character.x_pos;
         y_pos = Character.y_pos;
         shotValue = Character.scoreFrom;
         shotProbability = Character.prob; 
         wasShotHit = shotHit;
-        Score = GameHandler.Score;
+        Score = TaskGenerator.Score;
         OldScore = priorScore;
-        difficulty = GameHandler.difficulty;
-        gameMode = GameHandler.GameMode;
-        representation = GameHandler.representation;
-        priorScoreDiff = GameHandler.goalScore - OldScore;
-        newScoreDiff = GameHandler.goalScore - Score;
-        goal = GameHandler.goalScore;
-       // amtID = GameHandler.amtID;
-        unlimitedShots = GameHandler.unlimitedShots;
-        ballsLeft = GameHandler.ballsRemaining;
-        accuracy_correct = GameHandler.accuracy_correct;
-        round_num_of_shots = GameHandler.round_num_of_shots;
-        round_num_of_movements = GameHandler.round_num_of_movements;
-        accuracy_min_shots = GameHandler.accuracy_min_shots;
-        total_num_of_shots = GameHandler.total_num_of_shots;
-        total_num_of_movements = GameHandler.total_num_of_movements;
-        wps_correct = GameHandler.wps_correct;
-        wps_min_shots = GameHandler.wps_min_shots;
-        excess_shots = GameHandler.excess_shots;
-        movement_time = GameHandler.movement_time;
-        preplan_time = GameHandler.preplan_time;
-        //total_round_time = GameHandler.total_round_time;
-        total_game_time = GameHandler.total_game_time;
+        difficulty = TaskGenerator.difficulty;
+        gameMode = TaskGenerator.GameMode;
+        representation = TaskGenerator.representation;
+        priorScoreDiff = TaskGenerator.goalScore - OldScore;
+        newScoreDiff = TaskGenerator.goalScore - Score;
+        goal = TaskGenerator.goalScore;
+       // amtID = TaskGenerator.amtID;
+        unlimitedShots = TaskGenerator.unlimitedShots;
+        ballsLeft = TaskGenerator.ballsRemaining;
+        accuracy_correct = TaskGenerator.accuracy_correct;
+        round_num_of_shots = TaskGenerator.round_num_of_shots;
+        round_num_of_movements = TaskGenerator.round_num_of_movements;
+        accuracy_min_shots = TaskGenerator.accuracy_min_shots;
+        total_num_of_shots = TaskGenerator.total_num_of_shots;
+        total_num_of_movements = TaskGenerator.total_num_of_movements;
+        wps_correct = TaskGenerator.wps_correct;
+        wps_min_shots = TaskGenerator.wps_min_shots;
+        excess_shots = TaskGenerator.excess_shots;
+        movement_time = TaskGenerator.movement_time;
+        preplan_time = TaskGenerator.preplan_time;
+        //total_round_time = TaskGenerator.total_round_time;
+        total_game_time = TaskGenerator.total_game_time;
 
 }
 }

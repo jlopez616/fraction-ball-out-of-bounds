@@ -23,7 +23,7 @@ public class SimpleText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameHandler.GameMode == "FRACTIONS")
+        if (TaskGenerator.GameMode == "FRACTIONS")
         {
             thisText.text = guiPairs[thisText.text];
         }
@@ -37,7 +37,7 @@ public class SimpleText : MonoBehaviour
     void Update()
     {
         //Debug.Log(thisText.text);
-        if (GameHandler.GameMode == "FRACTIONS")
+        if (TaskGenerator.GameMode == "FRACTIONS")
         {
             thisText.text = guiPairs[thisText.text];
         } else
