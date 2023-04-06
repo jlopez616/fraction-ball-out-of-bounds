@@ -18,7 +18,7 @@ public class shotValue : MonoBehaviour
     {
         if (collider.gameObject.name == "character_feet")
         {
-            TaskGenerator.shotValue = value;
+            GameGenerator.shotValue = value;
            // Debug.Log(value);
         }
 

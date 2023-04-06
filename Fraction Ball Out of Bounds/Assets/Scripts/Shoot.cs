@@ -41,9 +41,9 @@ public class Shoot : MonoBehaviour
     void OnClick()
     {
         
-        if (TaskGenerator.shotInProgress == false)
+        if (GameGenerator.shotInProgress == false)
         {
-            TaskGenerator.lastAction = "Shoot";
+            GameGenerator.lastAction = "Shoot";
             ShootBall(Character.prob);
         }
         
@@ -59,51 +59,51 @@ public class Shoot : MonoBehaviour
 
         float chance = Random.Range(0, 100);
         string shotHit;
-        double oldScore = TaskGenerator.Score;
+        double oldScore = GameGenerator.Score;
         
-        double newScore = TaskGenerator.Score;
+        double newScore = GameGenerator.Score;
         ball.transform.position = character.transform.position;
         if (chance <= (prob * 100))
         {
             double scoreFrom = System.Math.Round(Character.scoreFrom, 2);
-            newScore = System.Math.Round(TaskGenerator.Score + scoreFrom, 2);
+            newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
 
-            coachText.text = "Shot hit! " + TaskGenerator.ScoreToFraction(TaskGenerator.Score) + "+" + TaskGenerator.ScoreToFraction(scoreFrom) + "=" + TaskGenerator.ScoreToFraction(newScore);
+            coachText.text = "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
             
             shotHit = "TRUE";
             wasShotHit = true;
 
-            TaskGenerator.round_num_of_shots = TaskGenerator.round_num_of_shots + 1;
+            GameGenerator.round_num_of_shots = GameGenerator.round_num_of_shots + 1;
 
 
-            if (TaskGenerator.round_num_of_shots == 1)
+            if (GameGenerator.round_num_of_shots == 1)
             {
-                TaskGenerator.preplan_time = TaskGenerator.timer;
+                GameGenerator.preplan_time = GameGenerator.timer;
             }
            
 
             
 
         } else {
-            coachText.text = "Shot missed! " + TaskGenerator.ScoreToFraction(TaskGenerator.Score) + "+0=" + TaskGenerator.ScoreToFraction(TaskGenerator.Score);
+            coachText.text = "Shot missed! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
             hitShotAudio.Stop(); 
             missShotAudio.Play();
             shotHit = "FALSE";
             wasShotHit = false;
         }
-        TaskGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+        GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
         Log log = new Log("SHOT", shotHit, oldScore);
-       // RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + TaskGenerator.playerId + "/fball.json", log);
+       // RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         if (shotHit == "TRUE")
         {
-            TaskGenerator.Score = newScore;
+            GameGenerator.Score = newScore;
         }
 
-        if (TaskGenerator.unlimitedShots == false)
+        if (GameGenerator.unlimitedShots == false)
         {
-            TaskGenerator.ballsRemaining--;
+            GameGenerator.ballsRemaining--;
         }
 
 
@@ -114,7 +114,7 @@ public class Shoot : MonoBehaviour
 
         if (ball.transform.position != endPos)
         {
-            if (TaskGenerator.shotInProgress == true)
+            if (GameGenerator.shotInProgress == true)
             {
                 if (wasShotHit == false)
                 {
@@ -139,10 +139,10 @@ public class Shoot : MonoBehaviour
         if (Time.time < endTime)
         {
             
-            TaskGenerator.shotInProgress = true;
+            GameGenerator.shotInProgress = true;
         } else
         {
-            TaskGenerator.shotInProgress = false;
+            GameGenerator.shotInProgress = false;
            
         }
     }

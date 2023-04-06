@@ -31,7 +31,7 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /* if (TaskGenerator.representation == "FOURTHS")
+        /* if (GameGenerator.representation == "FOURTHS")
          {
              scoreFrom = .25F; //rework for more than thirds
              prob = .65F;
@@ -95,9 +95,9 @@ public class Character : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0) && TaskGenerator.gameInProgress == true)
+        if (Input.GetMouseButtonDown(0) && GameGenerator.gameInProgress == true)
         {
-            if (TaskGenerator.shotInProgress == false)
+            if (GameGenerator.shotInProgress == false)
             {
                 Vector3 mousePos = Input.mousePosition;
 
@@ -106,16 +106,16 @@ public class Character : MonoBehaviour
                 Vector2 newPos = Vector2.Lerp(transform.position, mousePos, 1);
                 character.transform.position = Vector2.Lerp(transform.position, mousePos, 1.5f);
 
-                TaskGenerator.lastAction = "Move";
+                GameGenerator.lastAction = "Move";
 
-                TaskGenerator.round_num_of_movements = TaskGenerator.round_num_of_movements + 1;
+                GameGenerator.round_num_of_movements = GameGenerator.round_num_of_movements + 1;
 
                 ShotMeter(character.transform.position);
 
-                TaskGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-                Log log = new Log("MOVE", "", TaskGenerator.Score);
+                GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+                Log log = new Log("MOVE", "", GameGenerator.Score);
                 // Debug.Log(character.transform.position.y);
-                //RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + TaskGenerator.playerId + "/fball.json", log);
+                //RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             }
 
             
@@ -126,29 +126,29 @@ public class Character : MonoBehaviour
 
     void ShotMeter(Vector3 position)
     {
-        //Debug.Log(TaskGenerator.shotValue);
-        if (TaskGenerator.unlimitedShots == false)
+        //Debug.Log(GameGenerator.shotValue);
+        if (GameGenerator.unlimitedShots == false)
         {
             prob = 1;
         }
-        if (TaskGenerator.shotValue == .25)
+        if (GameGenerator.shotValue == .25)
         {
             scoreFrom = .25F;
-            if (TaskGenerator.unlimitedShots == true)
+            if (GameGenerator.unlimitedShots == true)
             {
                 prob = .85F;
             }
-        } else if (TaskGenerator.shotValue == .5)
+        } else if (GameGenerator.shotValue == .5)
         {
             scoreFrom = .50F;
-            if (TaskGenerator.unlimitedShots == true)
+            if (GameGenerator.unlimitedShots == true)
             {
                 prob = .70F;
             }
-        } else if (TaskGenerator.shotValue == .75)
+        } else if (GameGenerator.shotValue == .75)
         {
             scoreFrom = .75F;
-            if (TaskGenerator.unlimitedShots == true)
+            if (GameGenerator.unlimitedShots == true)
             {
                 prob = .55F;
             }
@@ -156,7 +156,7 @@ public class Character : MonoBehaviour
         } else
         {
             scoreFrom = 1;
-            if (TaskGenerator.unlimitedShots == true)
+            if (GameGenerator.unlimitedShots == true)
             {
                 prob = .40F;
             }
@@ -166,14 +166,14 @@ public class Character : MonoBehaviour
             Debug.Log(value);
         }
         
-        /if (TaskGenerator.representation  == "FOURTHS")
+        /if (GameGenerator.representation  == "FOURTHS")
         {
             if (character.transform.position.x >= 0)
             {
                 if (character.transform.position.x < first_bound && character.transform.position.y > first_bound_bottom)
                 {
                     scoreFrom = .25F;
-                    if (TaskGenerator. unlimitedShots == true) {
+                    if (GameGenerator. unlimitedShots == true) {
                         prob = .75F;
                     }
                    
@@ -181,7 +181,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x < second_bound && character.transform.position.y > second_bound_bottom)
                 {
                     scoreFrom = .50F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .60F;
                     }
@@ -189,7 +189,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x < third_bound && character.transform.position.y > third_bound_bottom)
                 {
                     scoreFrom = .75F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .45F;
                     }
@@ -197,7 +197,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x < fourth_bound && character.transform.position.y > fourth_bound_bottom)
                 {
                     scoreFrom = 1;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .30F;
                     }
@@ -208,7 +208,7 @@ public class Character : MonoBehaviour
                 if (character.transform.position.x > -first_bound && character.transform.position.y > first_bound_bottom)
                 {
                     scoreFrom = .25F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .75F;
                     }
@@ -216,7 +216,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x > -second_bound && character.transform.position.y > second_bound_bottom)
                 {
                     scoreFrom = .50F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .60F;
                     }
@@ -224,7 +224,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x > -third_bound && character.transform.position.y > third_bound_bottom)
                 {
                     scoreFrom = .75F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .45F;
                     }
@@ -232,7 +232,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x > -fourth_bound && character.transform.position.y > fourth_bound_bottom)
                 {
                     scoreFrom = 1;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .30F;
                     }
@@ -245,7 +245,7 @@ public class Character : MonoBehaviour
                 if (character.transform.position.x < first_bound)
                 {
                     scoreFrom = .33F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .60F;
                     }
@@ -260,7 +260,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x < third_bound)
                 {
                     scoreFrom = 1;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .30F;
                     }
@@ -271,7 +271,7 @@ public class Character : MonoBehaviour
                 if (character.transform.position.x > -first_bound)
                 {
                     scoreFrom = .33F;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .60F;
                     }
@@ -286,7 +286,7 @@ public class Character : MonoBehaviour
                 else if (character.transform.position.x > -third_bound)
                 {
                     scoreFrom = 1;
-                    if (TaskGenerator.unlimitedShots == true)
+                    if (GameGenerator.unlimitedShots == true)
                     {
                         prob = .30F;
                     }

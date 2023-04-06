@@ -35,7 +35,7 @@ public class hoopNet : MonoBehaviour
     void Update()
     {
 
-        if (TaskGenerator.shotInProgress == false) {
+        if (GameGenerator.shotInProgress == false) {
             basketball.SetActive(true);
             hoopSprite.sprite = emptyHoop;
         }
