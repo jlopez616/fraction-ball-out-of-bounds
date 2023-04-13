@@ -32,14 +32,14 @@ public class TaskGenerator : MonoBehaviour {
         //CHANGE THIS LINE BASED ON GAME SETTING
     GameSetting = "EXACTLY"; 
         //1 is Exactly
-        //2 is Intervention
+        //2 is Make it Count
         //3 is Rapid Fire
     
     //every possible level configuration of the intervention or evaluation will be generated here
-    GameState exactly_decimal_limited = new GameState("DECIMALS", 0, "fourths", 0, true);
-    GameState exactly_decimal_unlimited = new GameState("DECIMALS", 0, "fourths", 0, false);
-    GameState exactly_fraction_limited = new GameState("FRACTIONS", 0, "fourths", 0, true);
-    GameState exactly_fraction_unlimited = new GameState("FRACTIONS", 0, "fourths", 0, false);
+    GameState exactly_decimal_limited = new GameState("DECIMALS", 0, "fourths", 0, true, "day");
+    GameState exactly_decimal_unlimited = new GameState("DECIMALS", 0, "fourths", 0, false, "day");
+    GameState exactly_fraction_limited = new GameState("FRACTIONS", 0, "fourths", 0, true, "day");
+    GameState exactly_fraction_unlimited = new GameState("FRACTIONS", 0, "fourths", 0, false, "day");
 
 
 

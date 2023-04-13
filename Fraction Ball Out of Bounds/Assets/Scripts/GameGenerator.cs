@@ -54,7 +54,7 @@ public class GameGenerator : MonoBehaviour
     public static bool shotInProgress = false;
     public static bool gameInProgress = false;
 
-        //Vars added 3/30/2022
+        //Analytics Vars added 3/30/2022
     public static int accuracy_correct;
     public static int accuracy_min_shots;
     public static int round_num_of_shots;
@@ -95,7 +95,7 @@ public class GameGenerator : MonoBehaviour
     void Start()
     {
 
-        //This part of code rearanges the scenes into a random order
+        //This part of code used to rearanges the scenes into a random order
 
         introText_one.text = "Ready to play, " + playerId + "?";
         introButtonText.text = "Yes!";
@@ -109,6 +109,8 @@ public class GameGenerator : MonoBehaviour
 
        void introOne()
     {    
+        //Suggestion: array of strings
+        //New text generator file
         introText_one.text = "Time to play FRACTION BALL: EXACTLY!";
         introText_two.text = "Game Rules:";
         introText_three.text = "Challenge 1: Score EXACTLY a number that you get.";
@@ -155,14 +157,17 @@ public class GameGenerator : MonoBehaviour
         {
             currentScene = TaskGenerator.scenes.Peek();
 
+            //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
             if (currentScene.goalScore == 0) {
                 goalScore = Random.Range(1, 5);
             } else {
                 goalScore = currentScene.goalScore;
             }
-            
-            originalGoalScore = goalScore;
+
+            originalGoalScore = goalScore; // Analytics, do not touch this for now
+
+             //Goal Score Generator Pt. 2
                 if (goalScore != 5) {
                 extraDecimal = Random.Range(0, 4);
                     if (extraDecimal == 0 && goalScore == 1)
@@ -195,7 +200,7 @@ public class GameGenerator : MonoBehaviour
 
             numberOfBalls = getNumberOfBalls(goalScore);
 
-
+            //This affects the screen that gives you information about your current round
             if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false))
 {
                 GameMode = "FRACTIONS";
@@ -236,7 +241,7 @@ public class GameGenerator : MonoBehaviour
                 unlimitedShots = false;
             }
 
-
+            //This affects the canvas
             if (GameMode == "DECIMALS")
             {
                 goalString = goalScore.ToString();
@@ -279,45 +284,61 @@ public class GameGenerator : MonoBehaviour
 
     void StartGame() {
 
-        fourths_spaces.SetActive(true);
+        fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
 
-                if (unlimitedShots == false)
-        {
-            ballsLeft.SetActive(true);
-            ballOne.SetActive(true);
-            ballTwo.SetActive(true);
-            ballThree.SetActive(true);
-            ballFour.SetActive(true);
-            ballFive.SetActive(true);
-        }
+        //UI changes
+        if (unlimitedShots == false)
+            {
+                ballsLeft.SetActive(true);
+                ballOne.SetActive(true);
+                ballTwo.SetActive(true);
+                ballThree.SetActive(true);
+                ballFour.SetActive(true);
+                ballFive.SetActive(true);
+            }
+        if (unlimitedShots == false)
+            {
+                ballsRemaining = numberOfBalls;
+            }
+        
+        numberline.SetActive(true);
+        targetText.text = "Target: " + goalString;
+        coachText.text = "3..2..1..Shoot!";
 
+        shootButton.SetActive(true);
+        IntroPanel.SetActive(false);
+        IntroUI.SetActive(false);
+        mainCharacter.SetActive(true);
+
+        //analytics
         timer = 0;
         round_num_of_shots = 0;
         round_num_of_movements = 0;
         preplan_time = 0;
         movement_time = 0;
+
+        //control
         shotInProgress = false;
         gameInProgress = true;
-        shootButton.SetActive(true);
-        IntroPanel.SetActive(false);
-        IntroUI.SetActive(false);
-        mainCharacter.SetActive(true);
-        targetText.text = "Target: " + goalString;
-        coachText.text = "3..2..1..Shoot!";
-        if (unlimitedShots == false)
-        {
-            ballsRemaining = numberOfBalls;
-        }
-        
-        numberline.SetActive(true);
+
     }
 
     void EndGame() {
 
         //TODO: REWORK, BIG TIME :D
-        Shoot.endTime = Time.time;
+        //Control
         shotInProgress = false;
         gameInProgress = false;
+
+
+        //analytics
+        Shoot.endTime = Time.time;
+        total_round_time = movement_time;
+        total_game_time += movement_time;
+        total_num_of_movements += round_num_of_movements;
+        total_num_of_shots += round_num_of_shots;
+
+        //UI
         ballsLeft.SetActive(false);
         ballOne.SetActive(false);
         ballTwo.SetActive(false);
@@ -325,10 +346,6 @@ public class GameGenerator : MonoBehaviour
         ballFour.SetActive(false);
         ballFive.SetActive(false);
         mainCharacter.SetActive(false);
-        total_round_time = movement_time;
-        total_game_time += movement_time;
-        total_num_of_movements += round_num_of_movements;
-        total_num_of_shots += round_num_of_shots;
         if (Score == goalScore)
         {
 
@@ -416,6 +433,7 @@ public class GameGenerator : MonoBehaviour
     }
 
         public static Dictionary<double, string> fractionPairs = new Dictionary<double, string>() {
+            //Proposed change: fraction would be default mode, then convert to decimal
         {.25, "1/4"},
         {.5, "2/4"},
         {.75, "3/4"},

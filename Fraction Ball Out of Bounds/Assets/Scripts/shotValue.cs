@@ -19,7 +19,6 @@ public class shotValue : MonoBehaviour
         if (collider.gameObject.name == "character_feet")
         {
             GameGenerator.shotValue = value;
-           // Debug.Log(value);
         }
 
         Physics2D.IgnoreCollision(bball.GetComponent<Collider2D>(), GetComponent<Collider2D>());
