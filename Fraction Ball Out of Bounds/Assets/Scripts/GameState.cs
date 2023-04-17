@@ -12,7 +12,7 @@
                 notation = notationValue; //fourths, thirds, sixths, eighths, etc. = whatever our denominator is supposed to be
                 initialScore = startScore; // right now all zero
                 limitedShots = limitShots; //Boolean, whether or not the player is guaranteed to score
-                timeofDay = timeOfDayValue; //String, "day" or "night"
+                timeOfDay = timeOfDayValue; //String, "day" or "night"
             }
 
             public GameState() {
@@ -21,7 +21,7 @@
                 notation = "fourths";
                 initialScore = 0;
                 limitedShots = true;
-                timeofDay = "day";
+                timeOfDay = "day";
             }
         }
 
