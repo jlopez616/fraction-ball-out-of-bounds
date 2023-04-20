@@ -54,7 +54,7 @@ public class GameGenerator : MonoBehaviour
     public static bool shotInProgress = false;
     public static bool gameInProgress = false;
 
-        //Analytics Vars added 3/30/2022
+    //Analytics Vars added 3/30/2022
     public static int accuracy_correct;
     public static int accuracy_min_shots;
     public static int round_num_of_shots;
@@ -90,7 +90,7 @@ public class GameGenerator : MonoBehaviour
 
 
     //Queue to store scenes
-   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -107,8 +107,8 @@ public class GameGenerator : MonoBehaviour
 
     //Want better system for coding names:
 
-       void introOne()
-    {    
+    void introOne()
+    {
         //Suggestion: array of strings
         //New text generator file
         introText_one.text = "Time to play FRACTION BALL: EXACTLY!";
@@ -147,138 +147,106 @@ public class GameGenerator : MonoBehaviour
     }
 
 
-        void scoreConfig()
+    void scoreConfig()
     {
         ballsLeft.SetActive(false);
         Score = 0;
         Log log = new Log("PRE-ROUND", "NO SHOT", Score); // double check this
         //RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameHandler.playerId + "/fball.json", log);
-        if (TaskGenerator.scenes.Count != 0)
-        {
-            currentScene = TaskGenerator.scenes.Peek();
-
-            //Goal Score Generator Pt. 1
-            //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
-            if (currentScene.goalScore == 0) {
-                goalScore = Random.Range(1, 5);
-            } else {
-                goalScore = currentScene.goalScore;
-            }
-
-            originalGoalScore = goalScore; // Analytics, do not touch this for now
-
-             //Goal Score Generator Pt. 2
-                if (goalScore != 5) {
-                extraDecimal = Random.Range(0, 4);
-                    if (extraDecimal == 0 && goalScore == 1)
-                    {
-                        goalScore = goalScore + .25;
-                        extraDecimal = .25;
-
-                    }
-                    if (extraDecimal == 1)
-                    {
-                        goalScore = goalScore + .25;
-                        extraDecimal = .25;
-
-                    }
-                    else if (extraDecimal == 2)
-                    {
-                        goalScore = goalScore + .5;
-                        extraDecimal = .5;
-                    }
-                    else if (extraDecimal == 3)
-                    {
-                        goalScore = goalScore + .75;
-                        extraDecimal = .75;
-                    }
-                    else
-                    {
-                        extraDecimal = 0;
-                    }
-            }
-
-            numberOfBalls = getNumberOfBalls(goalScore);
-
-            //This affects the screen that gives you information about your current round
-            if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false))
-{
-                GameMode = "FRACTIONS";
-                numberOfBalls = 100000;
-                introText_one.text = "For this round, score EXACTLY " + ScoreToFraction(goalScore);
-                introText_two.text = "Try and make " + ScoreToFraction(goalScore) + " with the LEAST number of shots";
-                introText_three.text = "Round Boost: You have as many shots as you want!";
-                introText_four.text = "";
-                unlimitedShots = true;
-            }
-            else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == false))
-            {
-                GameMode = "DECIMALS";
-                numberOfBalls = 100000;
-                introText_one.text = "For this round, score EXACTLY " + goalScore; 
-                introText_two.text = "Try and make " + ScoreToFraction(goalScore) + " with the LEAST number of shots";
-                introText_three.text = "Round Boost: You have as many shots as you want!";
-                introText_four.text = "";
-                unlimitedShots = true;
-            }
-            else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == true))
-            {
-                GameMode = "FRACTIONS";
-                introText_one.text = "For this round, score EXACTLY " + ScoreToFraction(goalScore);
-                introText_two.text = "You only have " + numberOfBalls + " shots.";
-                introText_three.text = "Round Boost: Your player will never miss a shot!";
-                introText_four.text = "";
-                unlimitedShots = false;
-            }
-            else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == true))
-            {
-                GameMode = "DECIMALS";
-                introText_one.text = "For this round, score EXACTLY " + goalScore;
-                introText_two.text = "You only have " + numberOfBalls + " shots.";
-                introText_three.text = "Round Boost: Your player will never miss a shot!";
-                introText_four.text = "";
-
-                unlimitedShots = false;
-            }
-
-            //This affects the canvas
-            if (GameMode == "DECIMALS")
-            {
-                goalString = goalScore.ToString();
-                fractionCourtLabels.SetActive(false);
-                decimalCourtLabels.SetActive(true);
-                spriteArray = decimalspriteArray;
-               
-
-            }
-            else if (GameMode == "FRACTIONS")
-            {
-                spriteArray = fractionspriteArray;
-                if (extraDecimal != 0)
-                {
-                    goalString = originalGoalScore.ToString() + " " + fractionPairs[extraDecimal];
-                }
-                else
-                {
-                    goalString = originalGoalScore.ToString();
-                }
-
-                decimalCourtLabels.SetActive(false);
-                fractionCourtLabels.SetActive(true);
-            }
-            introButton.onClick.RemoveAllListeners();
-            introButton.onClick.AddListener(StartGame);
-            introButtonText.text = "Start";
-
-        } else
-        {
+        if(TaskGenerator.scenes.Count == 0) {
             loadTest();
+            return;
+        }
+       
+        currentScene = TaskGenerator.scenes.Peek();
+
+        //Goal Score Generator Pt. 1
+        //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
+        if (currentScene.goalScore == 0) {
+            goalScore = Random.Range(1, 5);
+        } else {
+            goalScore = currentScene.goalScore;
         }
 
-    
+        originalGoalScore = goalScore; // Analytics, do not touch this for now
+
+        //Goal Score Generator Pt. 2
+        if (goalScore != 5) {
+            extraDecimal = Random.Range(0, 4);
+            if (extraDecimal == 0 && goalScore == 1) {
+                extraDecimal = .25;
+            }
+            if (extraDecimal == 1){
+                extraDecimal = .25;
+            } else if (extraDecimal == 2) {
+                extraDecimal = .5;
+            } else if (extraDecimal == 3) {
+                extraDecimal = .75;
+            } else{
+                extraDecimal = 0;
+            }
+            goalScore += extraDecimal;
+        }
+
+        numberOfBalls = getNumberOfBalls(goalScore);
+
+        GameMode = currentScene.representation;
+        unlimitedShots = !currentScene.limitedShots;
+        //This affects the screen that gives you information about your current round
+        if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false)) {
+            numberOfBalls = 100000;
+            introText_one.text = "For this round, score EXACTLY " + ScoreToFraction(goalScore);
+            introText_two.text = "Try and make " + ScoreToFraction(goalScore) + " with the LEAST number of shots";
+            introText_three.text = "Round Boost: You have as many shots as you want!";
+            introText_four.text = "";
+        } else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == false)) {
+            numberOfBalls = 100000;
+            introText_one.text = "For this round, score EXACTLY " + goalScore;
+            introText_two.text = "Try and make " + ScoreToFraction(goalScore) + " with the LEAST number of shots";
+            introText_three.text = "Round Boost: You have as many shots as you want!";
+            introText_four.text = "";
+        } else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == true)) {
+            introText_one.text = "For this round, score EXACTLY " + ScoreToFraction(goalScore);
+            introText_two.text = "You only have " + numberOfBalls + " shots.";
+            introText_three.text = "Round Boost: Your player will never miss a shot!";
+            introText_four.text = "";
+        } else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == true)) {
+            introText_one.text = "For this round, score EXACTLY " + goalScore;
+            introText_two.text = "You only have " + numberOfBalls + " shots.";
+            introText_three.text = "Round Boost: Your player will never miss a shot!";
+            introText_four.text = "";
+        }
+
+        //This affects the canvas
+        if (currentScene.representation == "DECIMALS")
+        {
+            goalString = goalScore.ToString();
+            fractionCourtLabels.SetActive(false);
+            decimalCourtLabels.SetActive(true);
+            spriteArray = decimalspriteArray;
+
+
+        } else if (currentScene.representation == "FRACTIONS"){
+            spriteArray = fractionspriteArray;
+            if (extraDecimal != 0)
+            {
+                goalString = originalGoalScore.ToString() + " " + fractionPairs[extraDecimal];
+            }
+            else
+            {
+                goalString = originalGoalScore.ToString();
+            }
+
+            decimalCourtLabels.SetActive(false);
+            fractionCourtLabels.SetActive(true);
+        }
+        introButton.onClick.RemoveAllListeners();
+        introButton.onClick.AddListener(StartGame);
+        introButtonText.text = "Start";
+
     }
 
-    void url () {
+    void url() {
         Application.OpenURL("https://jlopez616.github.io/fractionball/experiment.html?id=" + playerId);
     }
 
@@ -288,19 +256,17 @@ public class GameGenerator : MonoBehaviour
 
         //UI changes
         if (unlimitedShots == false)
-            {
-                ballsLeft.SetActive(true);
-                ballOne.SetActive(true);
-                ballTwo.SetActive(true);
-                ballThree.SetActive(true);
-                ballFour.SetActive(true);
-                ballFive.SetActive(true);
-            }
-        if (unlimitedShots == false)
-            {
-                ballsRemaining = numberOfBalls;
-            }
-        
+        {
+            ballsLeft.SetActive(true);
+            ballOne.SetActive(true);
+            ballTwo.SetActive(true);
+            ballThree.SetActive(true);
+            ballFour.SetActive(true);
+            ballFive.SetActive(true);
+
+            ballsRemaining = numberOfBalls;
+        }
+
         numberline.SetActive(true);
         targetText.text = "Target: " + goalString;
         coachText.text = "3..2..1..Shoot!";
@@ -369,8 +335,7 @@ public class GameGenerator : MonoBehaviour
                 wps_min_shots = wps_min_shots + round_num_of_shots;
             }
 
-        } else
-        {
+        } else {
             IntroUI.SetActive(true);
             IntroPanel.SetActive(true);
             shootButton.SetActive(false);
@@ -408,17 +373,17 @@ public class GameGenerator : MonoBehaviour
     }
 
 
-//THERE HAS TO BE A MORE ELEGANT WAY TO DO THIS
-// made it more readable
-        int getNumberOfBalls(double score)
+    //THERE HAS TO BE A MORE ELEGANT WAY TO DO THIS
+    // made it more readable
+    int getNumberOfBalls(double score)
     {
-        if(score<=1){
+        if(score <= 1){
             return 1;
         }
-        return score<=4? (int)Ceiling(score):5;
+        return score <= 4 ? (int)Ceiling(score) : 5;
     }
 
-        public static Dictionary<double, string> fractionPairs = new Dictionary<double, string>() {
+    public static Dictionary<double, string> fractionPairs = new Dictionary<double, string>() {
             //Proposed change: fraction would be default mode, then convert to decimal
         {.25, "1/4"},
         {.5, "2/4"},
@@ -485,7 +450,7 @@ public class GameGenerator : MonoBehaviour
     {
 
         timer += Time.deltaTime;
-        if (gameInProgress == true){
+        if (gameInProgress == true) {
             movement_time = timer;
             if (unlimitedShots == false)
             {
@@ -509,15 +474,14 @@ public class GameGenerator : MonoBehaviour
                 if (ballsRemaining < 1)
                 {
                     EndGame();
-                  
+
                 }
                 if (Score >= goalScore && ballsRemaining > 0)
                 {
                     EndGame();
                 }
 
-            } else
-            {
+            }else {
                 if (Score >= goalScore)
                 {
                     EndGame();
@@ -534,7 +498,7 @@ public class GameGenerator : MonoBehaviour
 
         }
 
-    }   
+    }
 
 
 }
