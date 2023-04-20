@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
-
+using static System.Math;
 public class GameGenerator : MonoBehaviour
 
 {
@@ -409,27 +409,13 @@ public class GameGenerator : MonoBehaviour
 
 
 //THERE HAS TO BE A MORE ELEGANT WAY TO DO THIS
+// made it more readable
         int getNumberOfBalls(double score)
     {
-        if (score <= 1)
-        {
+        if(score<=1){
             return 1;
         }
-        else if (score <= 2 && score > 1)
-        {
-            return 2;
-        }
-        else if (score <= 3 && score > 2)
-        {
-            return 3;
-        }
-        else if (score <= 4 && score > 3)
-        {
-            return 4;
-        } else
-        {
-            return 5;
-        }
+        return score<=4? (int)Ceiling(score):5;
     }
 
         public static Dictionary<double, string> fractionPairs = new Dictionary<double, string>() {
