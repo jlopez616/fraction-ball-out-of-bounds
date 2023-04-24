@@ -1,7 +1,7 @@
     public class GameState 
         {
             public string representation;
-            public string goalScore; // goalScore should be in the format "number numerator/denominator" or "a b/c" or "0"
+            public string goalScore; // goalScore should be in the format "number numerator/denominator" or "a b/c" or "a" or "0"
             public string notation;
             public double initialScore;
             public bool limitedShots;

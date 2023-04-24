@@ -165,23 +165,32 @@ public class GameGenerator : MonoBehaviour
         //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
         if (currentScene.goalScore == "0") {
             goalScore = Random.Range(1, 6);
-            
+
             if (goalScore != 5) {
                 int denominator = currentScene.notation == "fourths" ? 4 : currentScene.notation == "thirds" ? 3 : -1; 
                 int numerator = Random.Range(0, denominator);
-
                 if(goalScore==1 && numerator==0) {
                     numerator = 1;
                 }
                 double fractionScore = System.Math.Round((double)numerator/denominator, 2);
-                goalScoreFraction = goalScore.ToString() + " " + numerator.ToString() + "/" + denominator.ToString();
+
+                if(numerator == 0){
+                    goalScoreFraction = goalScore.ToString();
+                } else{
+                    goalScoreFraction = goalScore.ToString() + " " + numerator.ToString() + "/" + denominator.ToString();
+                }
+
                 goalScore+= fractionScore;
             }
         } else {
             goalScoreFraction = currentScene.goalScore;
-            int denominator = currentScene.goalScore[4]-'0';
-            int numerator = currentScene.goalScore[2]-'0';
-            goalScore = currentScene.goalScore[0]-'0' + System.Math.Round((double)numerator/denominator, 2);
+            if(currentScene.goalScore.Length == 1) {
+                goalScore = currentScene.goalScore[0]-'0';
+            } else {
+                int denominator = currentScene.goalScore[4]-'0';
+                int numerator = currentScene.goalScore[2]-'0';
+                goalScore = currentScene.goalScore[0]-'0' + System.Math.Round((double)numerator/denominator, 2);
+            }
         }
 
         originalGoalScore = goalScore; // Analytics, do not touch this for now
