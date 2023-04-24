@@ -21,6 +21,9 @@ public class GameGenerator : MonoBehaviour
 
     public static string notation; //fractions or decimals
     public static string representation; //thirds, fourths, fifths, sixths
+    public static bool timerActive ; // to set timer active for RAPID FIRE MODE
+    public static float rapidTimeStart; // to start a time value for RAPID FIRE MODE
+    public static float rapidTotalTime; // total timer for RAPID FIRE
 
     public int number_of_problems = 4; // number of problems to give to player
 
@@ -100,8 +103,7 @@ public class GameGenerator : MonoBehaviour
         introText_one.text = "Ready to play, " + playerId + "?";
         introButtonText.text = "Yes!";
         introButton.onClick.AddListener(introOne);
-
-
+       
 
     }
 
@@ -156,50 +158,55 @@ public class GameGenerator : MonoBehaviour
         if (TaskGenerator.scenes.Count != 0)
         {
             currentScene = TaskGenerator.scenes.Peek();
+           
+            if(currentScene.gameSetting=="EXACTLY"){
+                // to generate goal score only for EXACTLY MODE 
+                //Goal Score Generator Pt. 1
+                //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
+                if (currentScene.goalScore == 0) {
+                    goalScore = Random.Range(1, 5);
+                } else {
+                    goalScore = currentScene.goalScore;
+                }
 
-            //Goal Score Generator Pt. 1
-            //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
-            if (currentScene.goalScore == 0) {
-                goalScore = Random.Range(1, 5);
-            } else {
-                goalScore = currentScene.goalScore;
+                originalGoalScore = goalScore; // Analytics, do not touch this for now
+
+                //Goal Score Generator Pt. 2
+                    if (goalScore != 5) {
+                    extraDecimal = Random.Range(0, 4);
+                        if (extraDecimal == 0 && goalScore == 1)
+                        {
+                            goalScore = goalScore + .25;
+                            extraDecimal = .25;
+
+                        }
+                        if (extraDecimal == 1)
+                        {
+                            goalScore = goalScore + .25;
+                            extraDecimal = .25;
+
+                        }
+                        else if (extraDecimal == 2)
+                        {
+                            goalScore = goalScore + .5;
+                            extraDecimal = .5;
+                        }
+                        else if (extraDecimal == 3)
+                        {
+                            goalScore = goalScore + .75;
+                            extraDecimal = .75;
+                        }
+                        else
+                        {
+                            extraDecimal = 0;
+                        }
+                }
+
+                numberOfBalls = getNumberOfBalls(goalScore);
+            } // end of if for gameSetting mode as "EXACTLY";
+            else if (currentScene.gameSetting=="RAPID FIRE"){
+                timerActive = true;
             }
-
-            originalGoalScore = goalScore; // Analytics, do not touch this for now
-
-             //Goal Score Generator Pt. 2
-                if (goalScore != 5) {
-                extraDecimal = Random.Range(0, 4);
-                    if (extraDecimal == 0 && goalScore == 1)
-                    {
-                        goalScore = goalScore + .25;
-                        extraDecimal = .25;
-
-                    }
-                    if (extraDecimal == 1)
-                    {
-                        goalScore = goalScore + .25;
-                        extraDecimal = .25;
-
-                    }
-                    else if (extraDecimal == 2)
-                    {
-                        goalScore = goalScore + .5;
-                        extraDecimal = .5;
-                    }
-                    else if (extraDecimal == 3)
-                    {
-                        goalScore = goalScore + .75;
-                        extraDecimal = .75;
-                    }
-                    else
-                    {
-                        extraDecimal = 0;
-                    }
-            }
-
-            numberOfBalls = getNumberOfBalls(goalScore);
-
             //This affects the screen that gives you information about your current round
             if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false))
 {
@@ -285,7 +292,11 @@ public class GameGenerator : MonoBehaviour
     void StartGame() {
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
-
+        // set rapid timer active for RAPID FIRE
+        if(timerActive){
+            rapidTimeStart = Time.time;
+            Debug.Log(rapidTimeStart);
+        }
         //UI changes
         if (unlimitedShots == false)
             {
@@ -485,6 +496,17 @@ public class GameGenerator : MonoBehaviour
     {
 
         timer += Time.deltaTime;
+        // terminating condition for RAPID FIRE game;
+        if(timerActive){
+            float elapsedTime = Time.time - rapidTimeStart;
+            float remainingtime = rapidTotalTime - elapsedTime;
+            Debug.Log(remainingtime);
+            if(remainingtime<=0.0f){
+                timerActive = false;
+                EndGame();
+            }
+        }
+        
         if (gameInProgress == true){
             movement_time = timer;
             if (unlimitedShots == false)
@@ -534,7 +556,6 @@ public class GameGenerator : MonoBehaviour
 
         }
 
-    }   
-
+    }
 
 }
