@@ -36,10 +36,10 @@ public class TaskGenerator : MonoBehaviour {
         //3 is Rapid Fire
     
     //every possible level configuration of the intervention or evaluation will be generated here
-    GameState exactly_decimal_limited = new GameState("DECIMALS", 0, "fourths", 0, true, "day");
-    GameState exactly_decimal_unlimited = new GameState("DECIMALS", 0, "fourths", 0, false, "day");
-    GameState exactly_fraction_limited = new GameState("FRACTIONS", 0, "fourths", 0, true, "day");
-    GameState exactly_fraction_unlimited = new GameState("FRACTIONS", 0, "fourths", 0, false, "day");
+    GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
+    GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
+    GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
+    GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
 
 
 

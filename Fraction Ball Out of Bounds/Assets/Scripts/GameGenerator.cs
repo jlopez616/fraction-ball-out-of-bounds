@@ -80,6 +80,7 @@ public class GameGenerator : MonoBehaviour
     public static float y_pos;
     public double extraDecimal;
     public static string goalString;
+    public static string goalScoreFraction;
     public int numberOfBalls;
     public static bool unlimitedShots;
     public static int ballsRemaining;
@@ -135,15 +136,15 @@ public class GameGenerator : MonoBehaviour
 
     public static string ScoreToFraction(double translate)
     {
-        if (GameMode == "FRACTIONS")
-        {
+        if (GameMode == "FRACTIONS") {
             return fractionPairs[translate];
-        }
-        else
-        {
+        } else {
             return translate.ToString();
         }
-
+    }
+    
+    public static string DisplayGoalScore(){
+        return GameMode == "FRACTIONS" ? goalScoreFraction : goalScore.ToString();
     }
 
 
@@ -162,31 +163,37 @@ public class GameGenerator : MonoBehaviour
 
         //Goal Score Generator Pt. 1
         //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
-        if (currentScene.goalScore == 0) {
-            goalScore = Random.Range(1, 5);
+        if (currentScene.goalScore == "0") {
+            goalScore = Random.Range(1, 6);
+
+            if (goalScore != 5) {
+                int denominator = currentScene.notation == "fourths" ? 4 : currentScene.notation == "thirds" ? 3 : -1; 
+                int numerator = Random.Range(0, denominator);
+                if(goalScore==1 && numerator==0) {
+                    numerator = 1;
+                }
+                double fractionScore = System.Math.Round((double)numerator/denominator, 2);
+
+                if(numerator == 0){
+                    goalScoreFraction = goalScore.ToString();
+                } else{
+                    goalScoreFraction = goalScore.ToString() + " " + numerator.ToString() + "/" + denominator.ToString();
+                }
+
+                goalScore+= fractionScore;
+            }
         } else {
-            goalScore = currentScene.goalScore;
+            goalScoreFraction = currentScene.goalScore;
+            if(currentScene.goalScore.Length == 1) {
+                goalScore = currentScene.goalScore[0]-'0';
+            } else {
+                int denominator = currentScene.goalScore[4]-'0';
+                int numerator = currentScene.goalScore[2]-'0';
+                goalScore = currentScene.goalScore[0]-'0' + System.Math.Round((double)numerator/denominator, 2);
+            }
         }
 
         originalGoalScore = goalScore; // Analytics, do not touch this for now
-
-        //Goal Score Generator Pt. 2
-        if (goalScore != 5) {
-            extraDecimal = Random.Range(0, 4);
-            if (extraDecimal == 0 && goalScore == 1) {
-                extraDecimal = .25;
-            }
-            if (extraDecimal == 1){
-                extraDecimal = .25;
-            } else if (extraDecimal == 2) {
-                extraDecimal = .5;
-            } else if (extraDecimal == 3) {
-                extraDecimal = .75;
-            } else{
-                extraDecimal = 0;
-            }
-            goalScore += extraDecimal;
-        }
 
         numberOfBalls = getNumberOfBalls(goalScore);
 
@@ -195,18 +202,18 @@ public class GameGenerator : MonoBehaviour
         //This affects the screen that gives you information about your current round
         if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false)) {
             numberOfBalls = 100000;
-            introText_one.text = "For this round, score EXACTLY " + ScoreToFraction(goalScore);
-            introText_two.text = "Try and make " + ScoreToFraction(goalScore) + " with the LEAST number of shots";
+            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
+            introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
             introText_three.text = "Round Boost: You have as many shots as you want!";
             introText_four.text = "";
         } else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == false)) {
             numberOfBalls = 100000;
             introText_one.text = "For this round, score EXACTLY " + goalScore;
-            introText_two.text = "Try and make " + ScoreToFraction(goalScore) + " with the LEAST number of shots";
+            introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
             introText_three.text = "Round Boost: You have as many shots as you want!";
             introText_four.text = "";
         } else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == true)) {
-            introText_one.text = "For this round, score EXACTLY " + ScoreToFraction(goalScore);
+            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
             introText_two.text = "You only have " + numberOfBalls + " shots.";
             introText_three.text = "Round Boost: Your player will never miss a shot!";
             introText_four.text = "";
@@ -220,26 +227,16 @@ public class GameGenerator : MonoBehaviour
         //This affects the canvas
         if (currentScene.representation == "DECIMALS")
         {
-            goalString = goalScore.ToString();
             fractionCourtLabels.SetActive(false);
             decimalCourtLabels.SetActive(true);
             spriteArray = decimalspriteArray;
 
-
         } else if (currentScene.representation == "FRACTIONS"){
             spriteArray = fractionspriteArray;
-            if (extraDecimal != 0)
-            {
-                goalString = originalGoalScore.ToString() + " " + fractionPairs[extraDecimal];
-            }
-            else
-            {
-                goalString = originalGoalScore.ToString();
-            }
-
             decimalCourtLabels.SetActive(false);
             fractionCourtLabels.SetActive(true);
         }
+        goalString = DisplayGoalScore();
         introButton.onClick.RemoveAllListeners();
         introButton.onClick.AddListener(StartGame);
         introButtonText.text = "Start";
