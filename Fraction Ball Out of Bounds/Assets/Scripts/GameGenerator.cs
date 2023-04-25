@@ -44,6 +44,7 @@ public class GameGenerator : MonoBehaviour
     public GameObject shootButton;
     public Text coachText;
     public Text targetText;
+    public Text timerText;
 
     // Also part of UI; "Balls Left" Related
     public GameObject ballsLeft;
@@ -205,10 +206,23 @@ public class GameGenerator : MonoBehaviour
                 numberOfBalls = getNumberOfBalls(goalScore);
             } // end of if for gameSetting mode as "EXACTLY";
             else if (currentScene.gameSetting=="RAPID FIRE"){
+                // gameSetting = "RAPID FIRE";
                 timerActive = true;
+                rapidTotalTime = 60.0f;
+                goalScore = 10000;
             }
             //This affects the screen that gives you information about your current round
-            if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false))
+            // this UI setting is for RAPID FIRE
+            if(currentScene.gameSetting == "RAPID FIRE"){
+                GameMode = currentScene.representation;
+                numberOfBalls = 100000;
+                introText_one.text = "For this round, you have 1 minute";
+                introText_two.text = "Try and make as much as you can with the LEAST number of shots";
+                introText_three.text = "";
+                introText_four.text = "";
+                unlimitedShots = true;
+            }
+            else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false))
 {
                 GameMode = "FRACTIONS";
                 numberOfBalls = 100000;
@@ -276,6 +290,10 @@ public class GameGenerator : MonoBehaviour
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(StartGame);
             introButtonText.text = "Start";
+            // set rapid timer active for RAPID FIRE
+            if(timerActive){
+                rapidTimeStart = Time.time;
+            }
 
         } else
         {
@@ -292,11 +310,7 @@ public class GameGenerator : MonoBehaviour
     void StartGame() {
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
-        // set rapid timer active for RAPID FIRE
-        if(timerActive){
-            rapidTimeStart = Time.time;
-            Debug.Log(rapidTimeStart);
-        }
+
         //UI changes
         if (unlimitedShots == false)
             {
@@ -313,7 +327,9 @@ public class GameGenerator : MonoBehaviour
             }
         
         numberline.SetActive(true);
-        targetText.text = "Target: " + goalString;
+        // display target only when in EXACTLY MODE
+        if(!timerActive)
+            targetText.text = "Target: " + goalString;
         coachText.text = "3..2..1..Shoot!";
 
         shootButton.SetActive(true);
@@ -357,7 +373,20 @@ public class GameGenerator : MonoBehaviour
         ballFour.SetActive(false);
         ballFive.SetActive(false);
         mainCharacter.SetActive(false);
-        if (Score == goalScore)
+        Debug.Log(currentScene.gameSetting);
+        if(currentScene.gameSetting == "RAPID FIRE"){
+            IntroUI.SetActive(true);
+            IntroPanel.SetActive(true);
+            shootButton.SetActive(false);
+            numberline.SetActive(false);
+            coachText.text = "";
+            targetText.text = "";
+            introText_one.text = "Congratulations! You scored " + ScoreToFraction(Score) + " points!";
+            introText_two.text = "";
+            introText_three.text = "";
+            introText_four.text = "";
+        }
+        else if (Score == goalScore)
         {
 
             IntroUI.SetActive(true);
@@ -496,20 +525,24 @@ public class GameGenerator : MonoBehaviour
     {
 
         timer += Time.deltaTime;
-        // terminating condition for RAPID FIRE game;
-        if(timerActive){
-            float elapsedTime = Time.time - rapidTimeStart;
-            float remainingtime = rapidTotalTime - elapsedTime;
-            Debug.Log(remainingtime);
-            if(remainingtime<=0.0f){
-                timerActive = false;
-                EndGame();
-            }
-        }
-        
+       
         if (gameInProgress == true){
             movement_time = timer;
-            if (unlimitedShots == false)
+            // terminating condition for RAPID FIRE game;
+            if(timerActive){
+                float elapsedTime = Time.time - rapidTimeStart;
+                float remainingtime = rapidTotalTime - elapsedTime;
+                Debug.Log(remainingtime);
+                int remainder = (int) remainingtime;
+                timerText.text = "Time left: " + remainder.ToString();
+                if(remainingtime<=0.0f){
+                    timerActive = false;
+                    timerText.text = "";
+                    rapidTimeStart = 0.0f;
+                    EndGame();
+                }
+            }
+            else if (unlimitedShots == false)
             {
                 if (ballsRemaining < 5)
                 {

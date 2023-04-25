@@ -53,6 +53,7 @@ public class TaskGenerator : MonoBehaviour {
                 break;
             case "RAPID FIRE":
                 scenes.Enqueue(rapid_fire_fractions);
+                scenes.Enqueue(exactly_decimal_limited);
                 break;
 
         }
