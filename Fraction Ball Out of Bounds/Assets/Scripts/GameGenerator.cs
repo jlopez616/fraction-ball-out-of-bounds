@@ -290,10 +290,10 @@ public class GameGenerator : MonoBehaviour
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(StartGame);
             introButtonText.text = "Start";
-            // set rapid timer active for RAPID FIRE
-            if(timerActive){
-                rapidTimeStart = Time.time;
-            }
+            // // set rapid timer active for RAPID FIRE
+            // if(timerActive){
+            //     rapidTimeStart = Time.time;
+            // }
 
         } else
         {
@@ -310,6 +310,10 @@ public class GameGenerator : MonoBehaviour
     void StartGame() {
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
+         // set rapid timer active for RAPID FIRE
+            if(timerActive){
+                rapidTimeStart = Time.time;
+            }
 
         //UI changes
         if (unlimitedShots == false)
