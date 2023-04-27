@@ -1,7 +1,7 @@
     public class GameState 
         {
             public string representation;
-            public double goalScore;
+            public string goalScore; // goalScore should be in the format "number numerator/denominator" or "a b/c" or "a" or "0"
             public string notation;
             public double initialScore;
             public bool limitedShots;
@@ -19,7 +19,7 @@
 
             public GameState() {
                 representation = "DECIMALS";
-                goalScore = 0;
+                goalScore = "0";
                 notation = "fourths";
                 initialScore = 0;
                 limitedShots = true;
