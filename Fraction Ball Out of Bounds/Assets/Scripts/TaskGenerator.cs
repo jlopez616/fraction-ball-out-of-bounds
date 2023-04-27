@@ -58,5 +58,10 @@ public class TaskGenerator : MonoBehaviour {
 
         }
     //if goalScoreValue == 0; Game Compiler will randomly assign a score
+
+
+
     }
+
+
 }

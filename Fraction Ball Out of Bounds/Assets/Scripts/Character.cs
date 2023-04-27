@@ -5,7 +5,12 @@ using Proyecto26;
 
 public class Character : MonoBehaviour
 {
+    //public GameObject field;
     public GameObject character;
+    //public GameObject first_bound;
+    // public GameObject second_bound;
+    // public GameObject third_bound;
+    // public GameObject fourth_bound;
     public float radius;
     public float value;
     public float first_bound_bottom;
@@ -22,6 +27,71 @@ public class Character : MonoBehaviour
     Collider m_Collider;
     Vector3 m_Center;
     Vector3 m_Size, m_Min, m_Max;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        /* if (GameGenerator.representation == "FOURTHS")
+         {
+             scoreFrom = .25F; //rework for more than thirds
+             prob = .65F;
+
+         } else
+         {
+             scoreFrom = .33F; //rework for more than thirds
+             prob = .5F;
+         }*/
+
+
+        //Fetch the Collider from the GameObject
+
+        /* For Debugging Purposes:
+        Fetch the center of the Collider volume
+        m_Center = m_Collider.bounds.center;
+        Fetch the size of the Collider volume
+        m_Size = m_Collider.bounds.size;
+        Fetch the minimum and maximum bounds of the Collider volume
+        m_Min = m_Collider.bounds.min;
+        m_Max = m_Collider.bounds.max;
+
+        Output this data into the console
+        OutputData(); */
+    }
+
+    void OutputData()
+    {
+        //Output to the console the center and size of the Collider volume
+       // Debug.Log("Collider Center : " + m_Center);
+       // Debug.Log("Collider Size : " + m_Size);
+        //Debug.Log("Collider bound Minimum : " + m_Min);
+       // Debug.Log("Collider bound Maximum : " + m_Max);
+    }
+
+    /*void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject == character)
+        {
+
+            Debug.Log(collision.gameObject.name);
+        }
+
+        //Debug.Log(collision.gameObject.name);
+        /*{
+            Debug.Log(".25");
+        }
+        if (collision.gameObject == second_bound)
+        {
+            Debug.Log(".5");
+        }
+        if (collision.gameObject == third_bound)
+        {
+            Debug.Log(".75");
+        }
+        if (collision.gameObject == fourth_bound)
+        {
+            Debug.Log("1");
+        }
+    }*/
 
     private void OnMouseOver()
     {
@@ -47,65 +117,189 @@ public class Character : MonoBehaviour
                 // Debug.Log(character.transform.position.y);
                 //RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             }
+
+            
+
+
         }
     }
 
     void ShotMeter(Vector3 position)
     {
-
+        //Debug.Log(GameGenerator.shotValue);
         if (GameGenerator.unlimitedShots == false)
         {
             prob = 1;
         }
+        if (GameGenerator.shotValue == .25)
+        {
+            scoreFrom = .25F;
+            if (GameGenerator.unlimitedShots == true)
+            {
+                prob = .85F;
+            }
+        } else if (GameGenerator.shotValue == .5)
+        {
+            scoreFrom = .50F;
+            if (GameGenerator.unlimitedShots == true)
+            {
+                prob = .70F;
+            }
+        } else if (GameGenerator.shotValue == .75)
+        {
+            scoreFrom = .75F;
+            if (GameGenerator.unlimitedShots == true)
+            {
+                prob = .55F;
+            }
 
-        switch(GameGenerator.shotValue) {
-            case .25: 
-                scoreFrom = .25F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .85F;
-                }
-                break;
-            case .5:
-                scoreFrom = .50F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .70F;
-                }
-                break;
-            case .75:
-                scoreFrom = .75F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .55F;
-                }
-                break;
-            case .33:
-                scoreFrom = .33F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .80F;
-                }
-                break;
-            case .66:
-                scoreFrom = .66F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .60F;
-                }
-                break;
-            case 1:
-                scoreFrom = 1;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .40F;
-                }
-                break;
+        } else
+        {
+            scoreFrom = 1;
+            if (GameGenerator.unlimitedShots == true)
+            {
+                prob = .40F;
+            }
         }
     }
+        /*if (Mathf.Pow(position.x, 2) + (Mathf.Pow(position.y, 2) - 1) <= Mathf.Pow(radius, 2)) {
+            Debug.Log(value);
+        }
+        
+        /if (GameGenerator.representation  == "FOURTHS")
+        {
+            if (character.transform.position.x >= 0)
+            {
+                if (character.transform.position.x < first_bound && character.transform.position.y > first_bound_bottom)
+                {
+                    scoreFrom = .25F;
+                    if (GameGenerator. unlimitedShots == true) {
+                        prob = .75F;
+                    }
+                   
+                }
+                else if (character.transform.position.x < second_bound && character.transform.position.y > second_bound_bottom)
+                {
+                    scoreFrom = .50F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .60F;
+                    }
+                }
+                else if (character.transform.position.x < third_bound && character.transform.position.y > third_bound_bottom)
+                {
+                    scoreFrom = .75F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .45F;
+                    }
+                }
+                else if (character.transform.position.x < fourth_bound && character.transform.position.y > fourth_bound_bottom)
+                {
+                    scoreFrom = 1;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .30F;
+                    }
+                }
+            }
+            else
+            {
+                if (character.transform.position.x > -first_bound && character.transform.position.y > first_bound_bottom)
+                {
+                    scoreFrom = .25F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .75F;
+                    }
+                }
+                else if (character.transform.position.x > -second_bound && character.transform.position.y > second_bound_bottom)
+                {
+                    scoreFrom = .50F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .60F;
+                    }
+                }
+                else if (character.transform.position.x > -third_bound && character.transform.position.y > third_bound_bottom)
+                {
+                    scoreFrom = .75F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .45F;
+                    }
+                }
+                else if (character.transform.position.x > -fourth_bound && character.transform.position.y > fourth_bound_bottom)
+                {
+                    scoreFrom = 1;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .30F;
+                    }
+                }
+            }
+        } else
+        {
+            if (character.transform.position.x >= 0)
+            {
+                if (character.transform.position.x < first_bound)
+                {
+                    scoreFrom = .33F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .60F;
+                    }
+                }
+                else if (character.transform.position.x < second_bound)
+                {
+                    scoreFrom = .66F;
+                    {
+                        prob = .45F;
+                    }
+                }
+                else if (character.transform.position.x < third_bound)
+                {
+                    scoreFrom = 1;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .30F;
+                    }
+                }
+            }
+            else
+            {
+                if (character.transform.position.x > -first_bound)
+                {
+                    scoreFrom = .33F;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .60F;
+                    }
+                }
+                else if (character.transform.position.x > -second_bound)
+                {
+                    scoreFrom = .66F;
+                    {
+                        prob = .45F;
+                    }
+                }
+                else if (character.transform.position.x > -third_bound)
+                {
+                    scoreFrom = 1;
+                    if (GameGenerator.unlimitedShots == true)
+                    {
+                        prob = .30F;
+                    }
+                }
+            }
+        }*/
+
+
     // Update is called once per frame
     void Update()
     {
+
+
         x_pos = character.transform.position.x;
         y_pos = character.transform.position.y;
         ShotMeter(character.transform.position);
