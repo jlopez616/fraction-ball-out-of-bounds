@@ -207,7 +207,7 @@ public class GameGenerator : MonoBehaviour
             } // end of if for gameSetting mode as "EXACTLY";
             else if (currentScene.gameSetting=="RAPID FIRE"){
                 // gameSetting = "RAPID FIRE";
-                timerActive = true;
+                
                 rapidTotalTime = 60.0f;
                 goalScore = 10000;
             }
@@ -290,10 +290,6 @@ public class GameGenerator : MonoBehaviour
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(StartGame);
             introButtonText.text = "Start";
-            // set rapid timer active for RAPID FIRE
-            if(timerActive){
-                rapidTimeStart = Time.time;
-            }
 
         } else
         {
@@ -337,7 +333,14 @@ public class GameGenerator : MonoBehaviour
         IntroUI.SetActive(false);
         mainCharacter.SetActive(true);
 
-        //analytics
+       
+        // set rapid timer active for RAPID FIRE
+        timerActive = true;
+        if(timerActive){
+                rapidTimeStart = Time.time;
+            } 
+
+         //analytics
         timer = 0;
         round_num_of_shots = 0;
         round_num_of_movements = 0;
@@ -356,6 +359,7 @@ public class GameGenerator : MonoBehaviour
         //Control
         shotInProgress = false;
         gameInProgress = false;
+       
 
 
         //analytics
