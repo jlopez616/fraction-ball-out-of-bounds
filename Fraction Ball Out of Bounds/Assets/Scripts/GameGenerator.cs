@@ -264,7 +264,7 @@ public class GameGenerator : MonoBehaviour
             ballsRemaining = numberOfBalls;
         }
 
-        numberline.SetActive(true);
+        // numberline.SetActive(true);
         targetText.text = "Target: " + goalString;
         coachText.text = "3..2..1..Shoot!";
 
@@ -315,7 +315,7 @@ public class GameGenerator : MonoBehaviour
             IntroUI.SetActive(true);
             IntroPanel.SetActive(true);
             shootButton.SetActive(false);
-            numberline.SetActive(false);
+            // numberline.SetActive(false);
             coachText.text = "";
             targetText.text = "";
             introText_one.text = "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!";
@@ -336,7 +336,7 @@ public class GameGenerator : MonoBehaviour
             IntroUI.SetActive(true);
             IntroPanel.SetActive(true);
             shootButton.SetActive(false);
-            numberline.SetActive(false);
+            // numberline.SetActive(false);
             coachText.text = "";
             targetText.text = "";
 
@@ -492,10 +492,10 @@ public class GameGenerator : MonoBehaviour
             //Debug.Log(timer);
 
 
-            if (Score < goalScore)
-            {
-                numberLineImage.sprite = spriteArray[numberLinePairs[Score]];
-            }
+            // if (Score < goalScore)
+            // {
+            //     numberLineImage.sprite = spriteArray[numberLinePairs[Score]];
+            // }
 
         }
 

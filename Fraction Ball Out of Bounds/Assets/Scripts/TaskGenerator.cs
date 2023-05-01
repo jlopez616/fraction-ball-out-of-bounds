@@ -36,7 +36,7 @@ public class TaskGenerator : MonoBehaviour {
         //2 is Make it Count
         //3 is Rapid Fire
 
-        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
+        bool fourths_scene = true; // set this to true if notation is fourths otherwise false
 
         if (fourths_scene) {
             if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
@@ -60,7 +60,7 @@ public class TaskGenerator : MonoBehaviour {
         // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day");
         // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day");
         // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
-        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
+        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day");
 
 
 
