@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
+using UnityEngine.SceneManagement;
 
 public class TaskGenerator : MonoBehaviour {
 
@@ -30,16 +31,36 @@ public class TaskGenerator : MonoBehaviour {
     void Start()
     {
         //CHANGE THIS LINE BASED ON GAME SETTING
-    GameSetting = "EXACTLY"; 
+        GameSetting = "EXACTLY";
         //1 is Exactly
         //2 is Make it Count
         //3 is Rapid Fire
-    
-    //every possible level configuration of the intervention or evaluation will be generated here
-    GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
-    GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
-    GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
-    GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
+
+        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
+
+        if (fourths_scene) {
+            if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
+                SceneManager.LoadScene (sceneName:"MainScene");
+                return;
+            }
+        } else {
+            if(SceneManager.GetActiveScene().name == "MainScene") {
+                SceneManager.LoadScene (sceneName:"MainScene_3rd");
+                return;
+            }
+        }
+        
+
+        // every possible level configuration of the intervention or evaluation will be generated here
+        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
+        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
+        
+        // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day");
+        // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day");
+        // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
+        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
 
 
 
@@ -55,7 +76,7 @@ public class TaskGenerator : MonoBehaviour {
                 break;
 
         }
-    //if goalScoreValue == 0; Game Compiler will randomly assign a score
+        //if goalScoreValue == 0; Game Compiler will randomly assign a score
 
 
 

@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
     public float second_bound_bottom;
     public float third_bound_bottom;
     public float fourth_bound_bottom;
-    public static float scoreFrom;
+    public static double scoreFrom;
     public static float prob;
 
     public static float x_pos;
@@ -52,54 +52,30 @@ public class Character : MonoBehaviour
 
     void ShotMeter(Vector3 position)
     {
-
-        if (GameGenerator.unlimitedShots == false)
-        {
+        scoreFrom = GameGenerator.shotValue;
+        if (GameGenerator.unlimitedShots == false) {
             prob = 1;
+            return;
         }
 
-        switch(GameGenerator.shotValue) {
-            case .25: 
-                scoreFrom = .25F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .85F;
-                }
+        switch (GameGenerator.shotValue) {
+            case .25:
+                prob = .85F;
                 break;
             case .5:
-                scoreFrom = .50F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .70F;
-                }
+                prob = .70F;
                 break;
             case .75:
-                scoreFrom = .75F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .55F;
-                }
+                prob = .55F;
                 break;
             case .33:
-                scoreFrom = .33F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .80F;
-                }
+                prob = .80F;
                 break;
-            case .66:
-                scoreFrom = .66F;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .60F;
-                }
+            case .67:
+                prob = .60F;
                 break;
             case 1:
-                scoreFrom = 1;
-                if (GameGenerator.unlimitedShots == true)
-                {
-                    prob = .40F;
-                }
+                prob = .40F;
                 break;
         }
     }

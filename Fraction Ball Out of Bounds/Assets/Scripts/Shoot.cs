@@ -63,11 +63,16 @@ public class Shoot : MonoBehaviour
         
         double newScore = GameGenerator.Score;
         ball.transform.position = character.transform.position;
-        if (chance <= (prob * 100))
-        {
+        if (chance <= (prob * 100)) {
             double scoreFrom = System.Math.Round(Character.scoreFrom, 2);
-            newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
-
+            if (scoreFrom.ToString()=="0.33" && GameGenerator.Score.ToString().EndsWith(".33")) {
+                newScore = System.Math.Round(GameGenerator.Score + 0.34, 2);
+            } else if (scoreFrom.ToString()=="0.67" && GameGenerator.Score.ToString().EndsWith(".67")) {
+                newScore = System.Math.Round(GameGenerator.Score + 0.66, 2);
+            }   else {
+                newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
+            }
+            
             coachText.text = "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
@@ -82,9 +87,6 @@ public class Shoot : MonoBehaviour
             {
                 GameGenerator.preplan_time = GameGenerator.timer;
             }
-           
-
-            
 
         } else {
             coachText.text = "Shot missed! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
