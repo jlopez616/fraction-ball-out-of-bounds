@@ -264,7 +264,7 @@ public class GameGenerator : MonoBehaviour
             ballsRemaining = numberOfBalls;
         }
 
-        numberline.SetActive(true);
+        // numberline.SetActive(true);
         targetText.text = "Target: " + goalString;
         coachText.text = "3..2..1..Shoot!";
 
@@ -315,7 +315,7 @@ public class GameGenerator : MonoBehaviour
             IntroUI.SetActive(true);
             IntroPanel.SetActive(true);
             shootButton.SetActive(false);
-            numberline.SetActive(false);
+            // numberline.SetActive(false);
             coachText.text = "";
             targetText.text = "";
             introText_one.text = "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!";
@@ -336,7 +336,7 @@ public class GameGenerator : MonoBehaviour
             IntroUI.SetActive(true);
             IntroPanel.SetActive(true);
             shootButton.SetActive(false);
-            numberline.SetActive(false);
+            // numberline.SetActive(false);
             coachText.text = "";
             targetText.text = "";
 
@@ -383,32 +383,36 @@ public class GameGenerator : MonoBehaviour
     public static Dictionary<double, string> fractionPairs = new Dictionary<double, string>() {
             //Proposed change: fraction would be default mode, then convert to decimal
         {.25, "1/4"},
-        {.5, "2/4"},
-        {.75, "3/4"},
-        {.33, "1/3"},
-        {1, "1" },
         {1.25, "1 1/4"},
-        {1.5, "1 2/4"},
-        {1.75, "1 3/4"},
-        {2, "2" },
         {2.25, "2 1/4"},
-        {2.5, "2 2/4"},
-        {2.75, "2 3/4"},
-        {3, "3" },
         {3.25, "3 1/4"},
-        {3.5, "3 2/4"},
-        {3.75, "3 3/4"},
-        {4, "4"},
         {4.25, "4 1/4"},
+        {.5, "2/4"},
+        {1.5, "1 2/4"},
+        {2.5, "2 2/4"},
+        {3.5, "3 2/4"},
         {4.5, "4 2/4"},
+        {.75, "3/4"},
+        {1.75, "1 3/4"},
+        {2.75, "2 3/4"},
+        {3.75, "3 3/4"},
         {4.75, "4 3/4"},
-        {5, "5" },
-        {5.25, "5 1/4"},
-        {5.5, "5 2/4"},
-        {5.75, "5 3/4"},
-        {6, "6" },
-        {.66, "2/3"},
         {0, "0"},
+        {1, "1" },
+        {2, "2" },
+        {3, "3" },
+        {4, "4"},
+        {5, "5"},
+        {.33, "1/3"},
+        {1.33, "1 1/3"},
+        {2.33, "2 1/3"},
+        {3.33, "3 1/3"},
+        {4.33, "4 1/3"},
+        {.67, "2/3"},
+        {1.67, "1 2/3"},
+        {2.67, "2 2/3"},
+        {3.67, "3 2/3"},
+        {4.67, "4 2/3"},
         };
 
     public static Dictionary<double, int> numberLinePairs = new Dictionary<double, int>() {
@@ -437,7 +441,7 @@ public class GameGenerator : MonoBehaviour
         {5.5, 22},
         {5.75, 23},
         {6, 24},
-        {.66, 9999},
+        {.67, 9999},
         {0, 0},
         };
 
@@ -488,10 +492,10 @@ public class GameGenerator : MonoBehaviour
             //Debug.Log(timer);
 
 
-            if (Score < goalScore)
-            {
-                numberLineImage.sprite = spriteArray[numberLinePairs[Score]];
-            }
+            // if (Score < goalScore)
+            // {
+            //     numberLineImage.sprite = spriteArray[numberLinePairs[Score]];
+            // }
 
         }
 

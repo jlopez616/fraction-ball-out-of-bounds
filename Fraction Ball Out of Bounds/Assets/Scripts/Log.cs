@@ -13,7 +13,7 @@ public class Log
     public string representation;
     public float x_pos;
     public float y_pos;
-    public float shotValue;
+    public double shotValue;
     public string wasShotHit;
     public float shotProbability;
     public string difficulty;
