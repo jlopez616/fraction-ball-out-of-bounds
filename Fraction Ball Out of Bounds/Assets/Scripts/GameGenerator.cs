@@ -21,6 +21,9 @@ public class GameGenerator : MonoBehaviour
 
     public static string notation; //fractions or decimals
     public static string representation; //thirds, fourths, fifths, sixths
+        public static bool timerActive ; // to set timer active for RAPID FIRE MODE
+    public static float rapidTimeStart; // to start a time value for RAPID FIRE MODE
+    public static float rapidTotalTime; // total timer for RAPID FIRE
 
     public int number_of_problems = 4; // number of problems to give to player
 
@@ -41,6 +44,7 @@ public class GameGenerator : MonoBehaviour
     public GameObject shootButton;
     public Text coachText;
     public Text targetText;
+    public Text timerText; // text field for timer
 
     // Also part of UI; "Balls Left" Related
     public GameObject ballsLeft;
@@ -160,47 +164,61 @@ public class GameGenerator : MonoBehaviour
         }
        
         currentScene = TaskGenerator.scenes.Peek();
+        if(currentScene.gameSetting=="EXACTLY"){
+            //Goal Score Generator Pt. 1
+            //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
+            if (currentScene.goalScore == "0") {
+                goalScore = Random.Range(1, 6);
 
-        //Goal Score Generator Pt. 1
-        //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
-        if (currentScene.goalScore == "0") {
-            goalScore = Random.Range(1, 6);
+                if (goalScore != 5) {
+                    int denominator = currentScene.notation == "fourths" ? 4 : currentScene.notation == "thirds" ? 3 : -1; 
+                    int numerator = Random.Range(0, denominator);
+                    if(goalScore==1 && numerator==0) {
+                        numerator = 1;
+                    }
+                    double fractionScore = System.Math.Round((double)numerator/denominator, 2);
 
-            if (goalScore != 5) {
-                int denominator = currentScene.notation == "fourths" ? 4 : currentScene.notation == "thirds" ? 3 : -1; 
-                int numerator = Random.Range(0, denominator);
-                if(goalScore==1 && numerator==0) {
-                    numerator = 1;
+                    if(numerator == 0){
+                        goalScoreFraction = goalScore.ToString();
+                    } else{
+                        goalScoreFraction = goalScore.ToString() + " " + numerator.ToString() + "/" + denominator.ToString();
+                    }
+
+                    goalScore+= fractionScore;
                 }
-                double fractionScore = System.Math.Round((double)numerator/denominator, 2);
-
-                if(numerator == 0){
-                    goalScoreFraction = goalScore.ToString();
-                } else{
-                    goalScoreFraction = goalScore.ToString() + " " + numerator.ToString() + "/" + denominator.ToString();
-                }
-
-                goalScore+= fractionScore;
-            }
-        } else {
-            goalScoreFraction = currentScene.goalScore;
-            if(currentScene.goalScore.Length == 1) {
-                goalScore = currentScene.goalScore[0]-'0';
             } else {
-                int denominator = currentScene.goalScore[4]-'0';
-                int numerator = currentScene.goalScore[2]-'0';
-                goalScore = currentScene.goalScore[0]-'0' + System.Math.Round((double)numerator/denominator, 2);
+                goalScoreFraction = currentScene.goalScore;
+                if(currentScene.goalScore.Length == 1) {
+                    goalScore = currentScene.goalScore[0]-'0';
+                } else {
+                    int denominator = currentScene.goalScore[4]-'0';
+                    int numerator = currentScene.goalScore[2]-'0';
+                    goalScore = currentScene.goalScore[0]-'0' + System.Math.Round((double)numerator/denominator, 2);
+                }
             }
+
+            originalGoalScore = goalScore; // Analytics, do not touch this for now
+
+            numberOfBalls = getNumberOfBalls(goalScore);
+        }else if (currentScene.gameSetting=="RAPID FIRE"){
+            // gameSetting = "RAPID FIRE";
+            timerActive = true;
+            rapidTotalTime = 60.0f;
+            goalScore = 10000;
         }
-
-        originalGoalScore = goalScore; // Analytics, do not touch this for now
-
-        numberOfBalls = getNumberOfBalls(goalScore);
-
         GameMode = currentScene.representation;
         unlimitedShots = !currentScene.limitedShots;
         //This affects the screen that gives you information about your current round
-        if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false)) {
+        // this UI setting is for RAPID FIRE
+        if(currentScene.gameSetting == "RAPID FIRE"){
+            GameMode = currentScene.representation;
+            numberOfBalls = 100000;
+            introText_one.text = "For this round, you have 1 minute";
+            introText_two.text = "Try and make as much as you can with the LEAST number of shots";
+            introText_three.text = "";
+            introText_four.text = "";
+            unlimitedShots = true;
+        } else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false)) {
             numberOfBalls = 100000;
             introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
             introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
@@ -250,7 +268,10 @@ public class GameGenerator : MonoBehaviour
     void StartGame() {
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
-
+        // set rapid timer active for RAPID FIRE
+        if(timerActive){
+            rapidTimeStart = Time.time;
+        }
         //UI changes
         if (unlimitedShots == false)
         {
@@ -265,13 +286,21 @@ public class GameGenerator : MonoBehaviour
         }
 
         // numberline.SetActive(true);
-        targetText.text = "Target: " + goalString;
+          // display target only when in EXACTLY MODE
+        if(!timerActive)
+            targetText.text = "Target: " + goalString;
         coachText.text = "3..2..1..Shoot!";
 
         shootButton.SetActive(true);
         IntroPanel.SetActive(false);
         IntroUI.SetActive(false);
         mainCharacter.SetActive(true);
+
+        // set rapid timer active for RAPID FIRE
+        
+        if(timerActive){
+            rapidTimeStart = Time.time;
+        } 
 
         //analytics
         timer = 0;
@@ -309,7 +338,20 @@ public class GameGenerator : MonoBehaviour
         ballFour.SetActive(false);
         ballFive.SetActive(false);
         mainCharacter.SetActive(false);
-        if (Score == goalScore)
+
+        if(currentScene.gameSetting == "RAPID FIRE"){
+            IntroUI.SetActive(true);
+            IntroPanel.SetActive(true);
+            shootButton.SetActive(false);
+            numberline.SetActive(false);
+            coachText.text = "";
+            targetText.text = "";
+            timerText.text = "";
+            introText_one.text = "Congratulations! You scored " + ScoreToFraction(Score) + " points!";
+            introText_two.text = "";
+            introText_three.text = "";
+            introText_four.text = "";
+        } else if (Score == goalScore)
         {
 
             IntroUI.SetActive(true);
@@ -453,7 +495,19 @@ public class GameGenerator : MonoBehaviour
         timer += Time.deltaTime;
         if (gameInProgress == true) {
             movement_time = timer;
-            if (unlimitedShots == false)
+            if(timerActive){
+                float elapsedTime = Time.time - rapidTimeStart;
+                float remainingtime = rapidTotalTime - elapsedTime;
+                Debug.Log(remainingtime);
+                int remainder = (int) remainingtime;
+                timerText.text = "Time left: " + remainder.ToString();
+                if(remainingtime<=0.0f){
+                    timerActive = false;
+                    timerText.text = "";
+                    rapidTimeStart = 0.0f;
+                    EndGame();
+                }
+            } else if (unlimitedShots == false)
             {
                 if (ballsRemaining < 5)
                 {
