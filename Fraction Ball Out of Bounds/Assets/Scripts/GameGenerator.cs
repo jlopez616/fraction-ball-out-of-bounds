@@ -140,11 +140,25 @@ public class GameGenerator : MonoBehaviour
 
     public static string ScoreToFraction(double translate)
     {
-        if (GameMode == "FRACTIONS") {
-            return fractionPairs[translate];
-        } else {
-            return translate.ToString();
+        string score_frac = translate.ToString();
+        if (GameMode == "DECIMALS") {
+            return score_frac;
         }
+        // converting decimal to fraction
+        int index = score_frac.IndexOf(".");
+        if(index==-1){
+            return score_frac;
+        }
+        string decimal_part = score_frac.Substring(index);
+        string num = score_frac.Substring(0,index);
+        string final_Score;
+        if(num=="0"){
+            final_Score = fractionPairs[decimal_part];
+        }else{
+            final_Score = num + " " + fractionPairs[decimal_part];
+        }   
+        return final_Score;
+        
     }
     
     public static string DisplayGoalScore(){
@@ -422,39 +436,13 @@ public class GameGenerator : MonoBehaviour
         return score <= 4 ? (int)Ceiling(score) : 5;
     }
 
-    public static Dictionary<double, string> fractionPairs = new Dictionary<double, string>() {
+    public static Dictionary<string, string> fractionPairs = new Dictionary<string, string>() {
             //Proposed change: fraction would be default mode, then convert to decimal
-        {.25, "1/4"},
-        {1.25, "1 1/4"},
-        {2.25, "2 1/4"},
-        {3.25, "3 1/4"},
-        {4.25, "4 1/4"},
-        {.5, "2/4"},
-        {1.5, "1 2/4"},
-        {2.5, "2 2/4"},
-        {3.5, "3 2/4"},
-        {4.5, "4 2/4"},
-        {.75, "3/4"},
-        {1.75, "1 3/4"},
-        {2.75, "2 3/4"},
-        {3.75, "3 3/4"},
-        {4.75, "4 3/4"},
-        {0, "0"},
-        {1, "1" },
-        {2, "2" },
-        {3, "3" },
-        {4, "4"},
-        {5, "5"},
-        {.33, "1/3"},
-        {1.33, "1 1/3"},
-        {2.33, "2 1/3"},
-        {3.33, "3 1/3"},
-        {4.33, "4 1/3"},
-        {.67, "2/3"},
-        {1.67, "1 2/3"},
-        {2.67, "2 2/3"},
-        {3.67, "3 2/3"},
-        {4.67, "4 2/3"},
+        {".25", "1/4"},
+        {".5", "2/4"},
+        {".75", "3/4"},
+        {".33", "1/3"},
+        {".67", "2/3"},
         };
 
     public static Dictionary<double, int> numberLinePairs = new Dictionary<double, int>() {
@@ -498,7 +486,7 @@ public class GameGenerator : MonoBehaviour
             if(timerActive){
                 float elapsedTime = Time.time - rapidTimeStart;
                 float remainingtime = rapidTotalTime - elapsedTime;
-                Debug.Log(remainingtime);
+                // Debug.Log(remainingtime);
                 int remainder = (int) remainingtime;
                 timerText.text = "Time left: " + remainder.ToString();
                 if(remainingtime<=0.0f){
