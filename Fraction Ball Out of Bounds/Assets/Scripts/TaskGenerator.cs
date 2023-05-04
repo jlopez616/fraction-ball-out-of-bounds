@@ -31,7 +31,8 @@ public class TaskGenerator : MonoBehaviour {
     void Start()
     {
         //CHANGE THIS LINE BASED ON GAME SETTING
-        GameSetting = "EXACTLY";
+        // GameSetting = "EXACTLY";
+         GameSetting = "RAPID FIRE"; // to test rapid fire
         //1 is Exactly
         //2 is Make it Count
         //3 is Rapid Fire
@@ -62,7 +63,8 @@ public class TaskGenerator : MonoBehaviour {
         // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
         // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day");
 
-
+        // rapid fire
+        GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day","RAPID FIRE");   
 
         switch (GameSetting) {
             case "EXACTLY":
@@ -72,7 +74,8 @@ public class TaskGenerator : MonoBehaviour {
                 scenes.Enqueue(exactly_fraction_unlimited);
                 break;
             case "RAPID FIRE":
-                //scenes.Enqueue(rapid_fire_fractions);
+                scenes.Enqueue(rapid_fire_fractions);
+                scenes.Enqueue(exactly_decimal_limited);
                 break;
 
         }
