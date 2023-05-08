@@ -32,7 +32,8 @@ public class TaskGenerator : MonoBehaviour {
     {
         //CHANGE THIS LINE BASED ON GAME SETTING
         // GameSetting = "EXACTLY";
-         GameSetting = "RAPID FIRE"; // to test rapid fire
+        // GameSetting = "RAPID FIRE"; // to test rapid fire
+        GameSetting = "EXACTLY FLIP"; // to test rapid fire
         //1 is Exactly
         //2 is Make it Count
         //3 is Rapid Fire
@@ -53,29 +54,46 @@ public class TaskGenerator : MonoBehaviour {
         
 
         // every possible level configuration of the intervention or evaluation will be generated here
-        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
-        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
-        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
-        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
-        
-        // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day");
-        // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day");
-        // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
-        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day");
+        // /*
+        // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
+        // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
+        // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
+        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
+        // */
+
+        // To test thirds condition 
+        /*
+        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day");
+        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day");
+        */
 
         // rapid fire
-        GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day","RAPID FIRE");   
+        GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "RAPID FIRE"); 
+
+        // To test Exactly flip
+        GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
+        GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");  
 
         switch (GameSetting) {
             case "EXACTLY":
+                // scenes.Enqueue(exactly_decimal_limited);
+                // scenes.Enqueue(exactly_decimal_unlimited);
+                // scenes.Enqueue(exactly_fraction_limited);
+                // scenes.Enqueue(exactly_fraction_unlimited);
+                break;
+            case "RAPID FIRE":
+                scenes.Enqueue(rapid_fire_fractions);
+                // scenes.Enqueue(exactly_decimal_limited);
+                break;
+            case "EXACTLY FLIP":
                 scenes.Enqueue(exactly_decimal_limited);
                 scenes.Enqueue(exactly_decimal_unlimited);
                 scenes.Enqueue(exactly_fraction_limited);
                 scenes.Enqueue(exactly_fraction_unlimited);
-                break;
-            case "RAPID FIRE":
-                scenes.Enqueue(rapid_fire_fractions);
-                scenes.Enqueue(exactly_decimal_limited);
                 break;
 
         }
