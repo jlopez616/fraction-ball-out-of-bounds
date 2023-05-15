@@ -73,7 +73,8 @@ public class Shoot : MonoBehaviour
                 newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
             }
             
-            coachText.text = "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
+            if(!GameGenerator.isExactlyGhost)
+                coachText.text = "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
             
