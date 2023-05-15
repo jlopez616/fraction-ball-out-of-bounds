@@ -38,7 +38,7 @@ public class TaskGenerator : MonoBehaviour {
         //2 is Make it Count
         //3 is Rapid Fire
 
-        bool fourths_scene = true; // set this to true if notation is fourths otherwise false
+        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
 
         if (fourths_scene) {
             if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
