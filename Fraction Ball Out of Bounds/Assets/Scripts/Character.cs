@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
     public float third_bound_bottom;
     public float fourth_bound_bottom;
     public static double scoreFrom;
+    public static bool fractionCourt;
     public static float prob;
 
     public static float x_pos;
@@ -53,6 +54,7 @@ public class Character : MonoBehaviour
     void ShotMeter(Vector3 position)
     {
         scoreFrom = GameGenerator.shotValue;
+        fractionCourt = GameGenerator.isFractionCourt;
         if (GameGenerator.unlimitedShots == false) {
             prob = 1;
             return;

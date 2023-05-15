@@ -62,6 +62,9 @@ public class GameGenerator : MonoBehaviour
     public static int accuracy_correct;
     public static int accuracy_min_shots;
     public static int round_num_of_shots;
+    public static bool actualFractionCourt;
+    public static bool flipTermination;
+    public static int shotcount;
     public static int round_num_of_movements;
     public static int total_num_of_shots;
     public static int total_num_of_movements;
@@ -78,6 +81,7 @@ public class GameGenerator : MonoBehaviour
     public static string time;
     public static float timer = 0.0f;
     public static string GameMode;
+    public static string GameSetting;
     public static string difficulty;
     public static string lastAction;
     public static float x_pos;
@@ -92,6 +96,7 @@ public class GameGenerator : MonoBehaviour
     private static double originalGoalScore;
     public GameState currentScene;
     public static double shotValue;
+    public static bool isFractionCourt;
 
 
     //Queue to store scenes
@@ -178,11 +183,11 @@ public class GameGenerator : MonoBehaviour
         }
        
         currentScene = TaskGenerator.scenes.Peek();
-        if(currentScene.gameSetting=="EXACTLY"){
+        if(currentScene.gameSetting=="EXACTLY" || currentScene.gameSetting=="EXACTLY FLIP"){
             //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
             if (currentScene.goalScore == "0") {
-                goalScore = Random.Range(1, 6);
+                goalScore = Random.Range(2, 6);
 
                 if (goalScore != 5) {
                     int denominator = currentScene.notation == "fourths" ? 4 : currentScene.notation == "thirds" ? 3 : -1; 
@@ -199,6 +204,8 @@ public class GameGenerator : MonoBehaviour
                     }
 
                     goalScore+= fractionScore;
+                } else {
+                    goalScoreFraction = goalScore.ToString();
                 }
             } else {
                 goalScoreFraction = currentScene.goalScore;
@@ -214,7 +221,7 @@ public class GameGenerator : MonoBehaviour
             originalGoalScore = goalScore; // Analytics, do not touch this for now
 
             numberOfBalls = getNumberOfBalls(goalScore);
-        }else if (currentScene.gameSetting=="RAPID FIRE"){
+        } else if (currentScene.gameSetting=="RAPID FIRE"){
             // gameSetting = "RAPID FIRE";
             timerActive = true;
             rapidTotalTime = 60.0f;
@@ -222,47 +229,48 @@ public class GameGenerator : MonoBehaviour
         }
         GameMode = currentScene.representation;
         unlimitedShots = !currentScene.limitedShots;
+        GameSetting = currentScene.gameSetting;
         //This affects the screen that gives you information about your current round
         // this UI setting is for RAPID FIRE
         if(currentScene.gameSetting == "RAPID FIRE"){
-            GameMode = currentScene.representation;
             numberOfBalls = 100000;
             introText_one.text = "For this round, you have 1 minute";
             introText_two.text = "Try and make as much as you can with the LEAST number of shots";
             introText_three.text = "";
             introText_four.text = "";
-            unlimitedShots = true;
-        } else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == false)) {
-            numberOfBalls = 100000;
+        } else if(currentScene.gameSetting == "EXACTLY") {
+            Debug.Log("reached exactly");
             introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
-            introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
-            introText_three.text = "Round Boost: You have as many shots as you want!";
+            if(unlimitedShots == true){
+                numberOfBalls = 100000;
+                introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
+                introText_three.text = "Round Boost: You have as many shots as you want!";
+            } else {
+                introText_two.text = "You only have " + numberOfBalls + " shots.";
+                introText_three.text = "Round Boost: Your player will never miss a shot!";
+            }
             introText_four.text = "";
-        } else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == false)) {
-            numberOfBalls = 100000;
-            introText_one.text = "For this round, score EXACTLY " + goalScore;
-            introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
-            introText_three.text = "Round Boost: You have as many shots as you want!";
-            introText_four.text = "";
-        } else if ((currentScene.representation == "FRACTIONS") && (currentScene.limitedShots == true)) {
+        } else if(currentScene.gameSetting == "EXACTLY FLIP") {
             introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
-            introText_two.text = "You only have " + numberOfBalls + " shots.";
-            introText_three.text = "Round Boost: Your player will never miss a shot!";
-            introText_four.text = "";
-        } else if ((currentScene.representation == "DECIMALS") && (currentScene.limitedShots == true)) {
-            introText_one.text = "For this round, score EXACTLY " + goalScore;
-            introText_two.text = "You only have " + numberOfBalls + " shots.";
-            introText_three.text = "Round Boost: Your player will never miss a shot!";
-            introText_four.text = "";
+            if(unlimitedShots == true){
+                numberOfBalls = 100000;
+                introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
+                introText_three.text = "Round Boost: You have as many shots as you want!";
+            } else {
+                introText_two.text = "You only have " + numberOfBalls + " shots.";
+                introText_three.text = "Round Boost: Your player will never miss a shot!";
+            }
+            introText_four.text = "Ready to play EXACTLY FLIP";
         }
 
         //This affects the canvas
-        if (currentScene.representation == "DECIMALS")
-        {
+        if(currentScene.gameSetting == "EXACTLY FLIP") {
+            fractionCourtLabels.SetActive(true);
+            decimalCourtLabels.SetActive(true);
+        } else if (currentScene.representation == "DECIMALS") {
             fractionCourtLabels.SetActive(false);
             decimalCourtLabels.SetActive(true);
             spriteArray = decimalspriteArray;
-
         } else if (currentScene.representation == "FRACTIONS"){
             spriteArray = fractionspriteArray;
             decimalCourtLabels.SetActive(false);
@@ -299,11 +307,21 @@ public class GameGenerator : MonoBehaviour
             ballsRemaining = numberOfBalls;
         }
 
+        if (GameSetting == "EXACTLY FLIP") {
+            Debug.Log("DONE");
+            actualFractionCourt = true;
+            flipTermination = false;
+            shotcount = 0;
+        }
+
         // numberline.SetActive(true);
           // display target only when in EXACTLY MODE
         if(!timerActive)
             targetText.text = "Target: " + goalString;
-        coachText.text = "3..2..1..Shoot!";
+        if(GameSetting == "EXACTLY FLIP") {
+            coachText.text = "Shoot from Fraction Court!! 3..2..1..Shoot!";
+        } else 
+            coachText.text = "3..2..1..Shoot!";
 
         shootButton.SetActive(true);
         IntroPanel.SetActive(false);
@@ -353,54 +371,63 @@ public class GameGenerator : MonoBehaviour
         ballFive.SetActive(false);
         mainCharacter.SetActive(false);
 
-        if(currentScene.gameSetting == "RAPID FIRE"){
+        if(flipTermination == true) {
             IntroUI.SetActive(true);
             IntroPanel.SetActive(true);
             shootButton.SetActive(false);
-            numberline.SetActive(false);
             coachText.text = "";
             targetText.text = "";
-            timerText.text = "";
-            introText_one.text = "Congratulations! You scored " + ScoreToFraction(Score) + " points!";
+            introText_one.text = "Oh no, you scored from the wrong side of the Court !!";
             introText_two.text = "";
             introText_three.text = "";
             introText_four.text = "";
-        } else if (Score == goalScore)
-        {
-
-            IntroUI.SetActive(true);
-            IntroPanel.SetActive(true);
-            shootButton.SetActive(false);
-            // numberline.SetActive(false);
-            coachText.text = "";
-            targetText.text = "";
-            introText_one.text = "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!";
-            introText_two.text = "";
-            introText_three.text = "";
-            introText_four.text = "";
-
-            accuracy_correct = accuracy_correct + 1;
-            wps_correct = wps_correct + getNumberOfBalls(goalScore);
-
-            if (round_num_of_shots == getNumberOfBalls(goalScore))
-            {
-                accuracy_min_shots = accuracy_min_shots + 1;
-                wps_min_shots = wps_min_shots + round_num_of_shots;
-            }
-
+            flipTermination = false;
         } else {
-            IntroUI.SetActive(true);
-            IntroPanel.SetActive(true);
-            shootButton.SetActive(false);
-            // numberline.SetActive(false);
-            coachText.text = "";
-            targetText.text = "";
+            if(currentScene.gameSetting == "RAPID FIRE") {
+                IntroUI.SetActive(true);
+                IntroPanel.SetActive(true);
+                shootButton.SetActive(false);
+                numberline.SetActive(false);
+                coachText.text = "";
+                targetText.text = "";
+                timerText.text = "";
+                introText_one.text = "Congratulations! You scored " + ScoreToFraction(Score) + " points!";
+                introText_two.text = "";
+                introText_three.text = "";
+                introText_four.text = "";
+            } else if (Score == goalScore) {
+                IntroUI.SetActive(true);
+                IntroPanel.SetActive(true);
+                shootButton.SetActive(false);
+                // numberline.SetActive(false);
+                coachText.text = "";
+                targetText.text = "";
+                introText_one.text = "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!";
+                introText_two.text = "";
+                introText_three.text = "";
+                introText_four.text = "";
 
+                accuracy_correct = accuracy_correct + 1;
+                wps_correct = wps_correct + getNumberOfBalls(goalScore);
 
-            introText_one.text = "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead.";
-            introText_two.text = "";
-            introText_three.text = "";
-            introText_four.text = "";
+                if (round_num_of_shots == getNumberOfBalls(goalScore))
+                {
+                    accuracy_min_shots = accuracy_min_shots + 1;
+                    wps_min_shots = wps_min_shots + round_num_of_shots;
+                }
+
+            } else {
+                IntroUI.SetActive(true);
+                IntroPanel.SetActive(true);
+                shootButton.SetActive(false);
+                // numberline.SetActive(false);
+                coachText.text = "";
+                targetText.text = "";
+                introText_one.text = "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead.";
+                introText_two.text = "";
+                introText_three.text = "";
+                introText_four.text = "";
+            }
         }
         if (round_num_of_shots > getNumberOfBalls(Score))
         {
@@ -479,7 +506,6 @@ public class GameGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         timer += Time.deltaTime;
         if (gameInProgress == true) {
             movement_time = timer;
@@ -495,15 +521,17 @@ public class GameGenerator : MonoBehaviour
                     rapidTimeStart = 0.0f;
                     EndGame();
                 }
-            } else if (unlimitedShots == false)
-            {
+            } else if (unlimitedShots == false) {
+                if(flipTermination == true) {
+                    EndGame();
+                    return;
+                }
                 if (ballsRemaining < 5)
                 {
                     ballFive.SetActive(false);
                 }
                 if (ballsRemaining < 4)
                 {
-
                     ballFour.SetActive(false);
                 }
                 if (ballsRemaining < 3)
@@ -524,9 +552,8 @@ public class GameGenerator : MonoBehaviour
                     EndGame();
                 }
 
-            }else {
-                if (Score >= goalScore)
-                {
+            } else {
+                if(flipTermination == true || Score >= goalScore) {
                     EndGame();
                 }
             }

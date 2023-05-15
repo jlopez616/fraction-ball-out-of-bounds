@@ -22,6 +22,7 @@ public class Shoot : MonoBehaviour
 
     private float currentTime;
     public static float endTime;
+    public Text targetText;
 
 
     // Start is called before the first frame update
@@ -32,8 +33,6 @@ public class Shoot : MonoBehaviour
         missShotAudio = missShot.GetComponent<AudioSource>();
         endPos = net.transform.position;
         shootBall.onClick.AddListener(OnClick);
-
-
     }
 
     // Update is called once per frame
@@ -63,6 +62,39 @@ public class Shoot : MonoBehaviour
         
         double newScore = GameGenerator.Score;
         ball.transform.position = character.transform.position;
+
+        if(GameGenerator.GameSetting == "EXACTLY FLIP") {
+            if(Character.fractionCourt != GameGenerator.actualFractionCourt) {
+                GameGenerator.ballsRemaining = 0;
+                GameGenerator.flipTermination = true;
+                hitShotAudio.Stop(); 
+                missShotAudio.Play();
+                shotHit = "FALSE";
+                wasShotHit = false;
+
+                GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+                Log log2 = new Log("SHOT", shotHit, oldScore);
+                // RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log2);
+                return;
+            }
+            GameGenerator.shotcount+=1;
+            if(GameGenerator.shotcount % 2 == 0) {
+                GameGenerator.actualFractionCourt = !GameGenerator.actualFractionCourt;
+                if(GameGenerator.actualFractionCourt == true){
+                    coachText.text = "FLIP. Only Shoot from Fraction Court \n";
+                    GameGenerator.GameMode = "FRACTIONS";
+                } else {
+                    coachText.text = "FLIP. Only Shoot from Decimal Court \n";
+                    GameGenerator.GameMode = "DECIMALS";
+                }
+                targetText.text = "Target: " + GameGenerator.DisplayGoalScore();
+            } else {
+                coachText.text = "";
+            }
+        } else {
+            coachText.text = "";
+        }
+
         if (chance <= (prob * 100)) {
             double scoreFrom = System.Math.Round(Character.scoreFrom, 2);
             if (scoreFrom.ToString()=="0.33" && GameGenerator.Score.ToString().EndsWith(".33")) {
@@ -73,7 +105,7 @@ public class Shoot : MonoBehaviour
                 newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
             }
             
-            coachText.text = "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
+            coachText.text += "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
             
@@ -82,14 +114,13 @@ public class Shoot : MonoBehaviour
 
             GameGenerator.round_num_of_shots = GameGenerator.round_num_of_shots + 1;
 
-
             if (GameGenerator.round_num_of_shots == 1)
             {
                 GameGenerator.preplan_time = GameGenerator.timer;
             }
 
         } else {
-            coachText.text = "Shot missed! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
+            coachText.text += "Shot missed! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
             hitShotAudio.Stop(); 
             missShotAudio.Play();
             shotHit = "FALSE";
@@ -102,12 +133,11 @@ public class Shoot : MonoBehaviour
         {
             GameGenerator.Score = newScore;
         }
-
+        
         if (GameGenerator.unlimitedShots == false)
         {
             GameGenerator.ballsRemaining--;
         }
-
 
     }
 
