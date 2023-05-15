@@ -16,12 +16,14 @@ public class GameGenerator : MonoBehaviour
     public GameObject IntroPanel; //Background for intro screen
     public Button introButton;
     public Text introButtonText; //Text for the continue button
+    public InputField enterscore; // temp for submitting score
+    public Button submitscore; // temp for submitting score
 
     public static string playerId; //ID of user
 
     public static string notation; //fractions or decimals
     public static string representation; //thirds, fourths, fifths, sixths
-        public static bool timerActive ; // to set timer active for RAPID FIRE MODE
+    public static bool timerActive ; // to set timer active for RAPID FIRE MODE
     public static float rapidTimeStart; // to start a time value for RAPID FIRE MODE
     public static float rapidTotalTime; // total timer for RAPID FIRE
 
@@ -32,6 +34,8 @@ public class GameGenerator : MonoBehaviour
     public GameObject decimalCourtLabels;
     public GameObject fourths_spaces;
     public GameObject mainCharacter;
+    public GameObject blankFourth;
+    public GameObject astronaut;
 
     //Numberline Related
     public Image numberLineImage; //should be blank
@@ -92,7 +96,8 @@ public class GameGenerator : MonoBehaviour
     private static double originalGoalScore;
     public GameState currentScene;
     public static double shotValue;
-
+    public static double numberlineScore; // to set numberLine value in numberLineSelect script
+    public static bool isExactlyGhost;
 
     //Queue to store scenes
 
@@ -178,7 +183,7 @@ public class GameGenerator : MonoBehaviour
         }
        
         currentScene = TaskGenerator.scenes.Peek();
-        if(currentScene.gameSetting=="EXACTLY"){
+        if(currentScene.gameSetting=="EXACTLY" || currentScene.gameSetting=="EXACTLY GHOST"){
             //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
             if (currentScene.goalScore == "0") {
@@ -267,6 +272,11 @@ public class GameGenerator : MonoBehaviour
             spriteArray = fractionspriteArray;
             decimalCourtLabels.SetActive(false);
             fractionCourtLabels.SetActive(true);
+        }
+        
+        // set exactlyGhost mode to true if gameSetting in EXACTLY GHOST
+        if(currentScene.gameSetting == "EXACTLY GHOST"){
+            isExactlyGhost = true;
         }
         goalString = DisplayGoalScore();
         introButton.onClick.RemoveAllListeners();
@@ -365,7 +375,21 @@ public class GameGenerator : MonoBehaviour
             introText_two.text = "";
             introText_three.text = "";
             introText_four.text = "";
-        } else if (Score == goalScore)
+        }else if(currentScene.gameSetting == "EXACTLY GHOST"){
+            // blankFourth.SetActive(true);
+            // astronaut.SetActive(true);
+            enterscore.gameObject.SetActive(true);
+            submitscore.gameObject.SetActive(true);
+            if(currentScene.representation == "FRACTIONS"){
+                fractionCourtLabels.SetActive(false);
+            }else{
+                decimalCourtLabels.SetActive(false);
+            }
+            coachText.text = "";
+            targetText.text = "";
+            submitscore.onClick.AddListener(onScoreSubmit);
+            
+        }else if (Score == goalScore)
         {
 
             IntroUI.SetActive(true);
@@ -479,7 +503,7 @@ public class GameGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // Debug.Log(Score);
         timer += Time.deltaTime;
         if (gameInProgress == true) {
             movement_time = timer;
@@ -540,8 +564,35 @@ public class GameGenerator : MonoBehaviour
             // }
 
         }
-
+       
+        
     }
-
+     // temp func to check if score entered matches the goalstring
+    void onScoreSubmit(){
+        
+        string userscore = enterscore.text;
+        IntroUI.SetActive(true);
+        IntroPanel.SetActive(true);
+        introText_two.text = "";
+        introText_three.text = "";
+        introText_four.text = "";
+        // Debug.Log(userscore);
+        // Debug.Log("goal"+goalString);
+        if(userscore != goalString){ 
+            introText_one.text = "Oh no you guessed wrong score, the actual target was " + goalString;
+        }else{
+            string temp_score = Score.ToString();
+            introText_one.text = "Oh no you entered wrong score, the actual score you secured was " + Score;
+            if(currentScene.representation == "FRACTIONS"){
+                temp_score = ScoreToFraction(Score);
+                introText_one.text = "Oh no you entered wrong score, the actual score you secured was " + ScoreToFraction(Score);
+            }
+            if(userscore == temp_score){
+                introText_one.text = "Congratulations! You got “exactly” " + goalString + " points!";
+            }
+        }
+        enterscore.gameObject.SetActive(false);
+        submitscore.gameObject.SetActive(false);
+    }
 
 }

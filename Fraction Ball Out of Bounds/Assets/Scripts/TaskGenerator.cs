@@ -32,7 +32,8 @@ public class TaskGenerator : MonoBehaviour {
     {
         //CHANGE THIS LINE BASED ON GAME SETTING
         // GameSetting = "EXACTLY";
-         GameSetting = "RAPID FIRE"; // to test rapid fire
+        //  GameSetting = "RAPID FIRE"; // to test rapid fire
+        GameSetting = "EXACTLY GHOST"; // to test exactly ghost
         //1 is Exactly
         //2 is Make it Count
         //3 is Rapid Fire
@@ -67,6 +68,9 @@ public class TaskGenerator : MonoBehaviour {
         GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day","RAPID FIRE");  
         GameState rapid_fire_decimals = new GameState("DECIMALS", "0", "fourths", 0, false, "day","RAPID FIRE"); 
 
+        // Exactly ghost
+        GameState exactly_ghost_fractions = new GameState("DECIMALS", "0", "thirds", 0, true, "day","EXACTLY GHOST");
+
         switch (GameSetting) {
             case "EXACTLY":
                 scenes.Enqueue(exactly_decimal_limited);
@@ -80,7 +84,10 @@ public class TaskGenerator : MonoBehaviour {
                 scenes.Enqueue(exactly_fraction_unlimited);
                // scenes.Enqueue(exactly_decimal_limited);
                 break;
-
+            case "EXACTLY GHOST":
+                scenes.Enqueue(exactly_ghost_fractions);
+                scenes.Enqueue(exactly_fraction_limited);
+                break;
         }
         //if goalScoreValue == 0; Game Compiler will randomly assign a score
 
