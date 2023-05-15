@@ -33,12 +33,13 @@ public class TaskGenerator : MonoBehaviour {
         //CHANGE THIS LINE BASED ON GAME SETTING
         // GameSetting = "EXACTLY";
         // GameSetting = "RAPID FIRE"; // to test rapid fire
-        GameSetting = "EXACTLY FLIP"; // to test rapid fire
+        // GameSetting = "EXACTLY FLIP"; // to test exactly flip
+        GameSetting = "EXACTLY LETTERS"; // to test exactly letters
         //1 is Exactly
         //2 is Make it Count
         //3 is Rapid Fire
 
-        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
+        bool fourths_scene = true; // set this to true if notation is fourths otherwise false
 
         if (fourths_scene) {
             if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
@@ -54,12 +55,12 @@ public class TaskGenerator : MonoBehaviour {
         
 
         // every possible level configuration of the intervention or evaluation will be generated here
-        // /*
+        // 
         // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
         // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
         // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
         // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
-        // */
+        // 
 
         // To test thirds condition 
         /*
@@ -73,10 +74,16 @@ public class TaskGenerator : MonoBehaviour {
         GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "RAPID FIRE"); 
 
         // To test Exactly flip
-        GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
-        GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
-        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
-        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");  
+        // GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY FLIP");
+        // GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY FLIP");
+        // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY FLIP");
+        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY FLIP"); 
+
+        // To test Exactly Letters
+        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day", "EXACTLY LETTERS");
+        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day", "EXACTLY LETTERS");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY LETTERS");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY LETTERS");  
 
         switch (GameSetting) {
             case "EXACTLY":
@@ -90,12 +97,17 @@ public class TaskGenerator : MonoBehaviour {
                 // scenes.Enqueue(exactly_decimal_limited);
                 break;
             case "EXACTLY FLIP":
-                scenes.Enqueue(exactly_decimal_limited);
-                scenes.Enqueue(exactly_decimal_unlimited);
-                scenes.Enqueue(exactly_fraction_limited);
-                scenes.Enqueue(exactly_fraction_unlimited);
+                // scenes.Enqueue(exactly_decimal_limited);
+                // scenes.Enqueue(exactly_decimal_unlimited);
+                // scenes.Enqueue(exactly_fraction_limited);
+                // scenes.Enqueue(exactly_fraction_unlimited);
                 break;
-
+            case "EXACTLY LETTERS":
+                scenes.Enqueue(exactly_decimal_limited);
+                scenes.Enqueue(exactly_fraction_unlimited);
+                scenes.Enqueue(exactly_fraction_limited);
+                scenes.Enqueue(exactly_decimal_unlimited);
+                break;
         }
         //if goalScoreValue == 0; Game Compiler will randomly assign a score
 
