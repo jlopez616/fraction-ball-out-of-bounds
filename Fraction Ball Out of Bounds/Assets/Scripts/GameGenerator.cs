@@ -173,7 +173,7 @@ public class GameGenerator : MonoBehaviour
             //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
             if (currentScene.goalScore == "0") {
-                goalScore = Random.Range(1, 6);
+                goalScore = Random.Range(2, 6);
 
                 if (goalScore != 5) {
                     int denominator = currentScene.notation == "fourths" ? 4 : currentScene.notation == "thirds" ? 3 : -1; 
@@ -190,6 +190,8 @@ public class GameGenerator : MonoBehaviour
                     }
 
                     goalScore+= fractionScore;
+                } else {
+                    goalScoreFraction = goalScore.ToString();
                 }
             } else {
                 goalScoreFraction = currentScene.goalScore;
