@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
+using Proyecto26;
 using static System.Math;
 public class GameGenerator : MonoBehaviour
 
@@ -106,9 +107,10 @@ public class GameGenerator : MonoBehaviour
     {
 
         //This part of code used to rearanges the scenes into a random order
-
+        IntroPanel.SetActive(true);
         introText_one.text = "Ready to play, " + playerId + "?";
-        introButtonText.text = "Yes!";
+        introText_two.text = "¿Listo para jugar, " + playerId + "?";
+        introButtonText.text = "Yes! ¡Sí!";
         introButton.onClick.AddListener(introOne);
 
 
@@ -121,24 +123,35 @@ public class GameGenerator : MonoBehaviour
     {
         //Suggestion: array of strings
         //New text generator file
-        introText_one.text = "Time to play FRACTION BALL: EXACTLY!";
-        introText_two.text = "Game Rules:";
-        introText_three.text = "Challenge 1: Score EXACTLY a number that you get.";
-        introText_four.text = "Challenge 2: Don't score over it or you will lose.";
-        introButtonText.text = "Continue";
+        introText_one.text = "Challenge 1: Score EXACTLY a number that you get.";
+        introText_two.text = "Challenge 2: Don't score over it or you will lose.";
+        introText_three.text = "Desafío 1: Marca EXACTAMENTE un número que obtengas.";
+        introText_four.text = "Desafío 2: No lo superes o perderás.";
+        introButtonText.text = "Continue / Continuar";
         introButton.onClick.RemoveAllListeners();
-        introButton.onClick.AddListener(gameConfig);
+        introButton.onClick.AddListener(gameConfigOne);
 
     }
 
 
-    void gameConfig()
+    void gameConfigOne()
     {
-        introText_one.text = "How to Play:";
-        introText_two.text = "Click on the court to move.";
-        introText_three.text = "Click on the SHOOT button to shoot a basketball.";
-        introText_four.text = "Use the numberline to keep track of your score.";
+        introText_one.text = "Click on the court to move.";
+        introText_two.text = "Click on the SHOOT button to shoot a basketball.";
+        introText_three.text = "Haz clic en la cancha para moverte";
+        introText_four.text = "Haz clic en el botón SHOOT para disparar una pelota de baloncesto.";
         introButton.onClick.RemoveAllListeners();
+        introButton.onClick.AddListener(gameConfigTwo);
+
+    }
+
+
+    void gameConfigTwo()
+    {
+        introText_one.text = "Pay attention!";
+        introText_two.text = "At the start of each round, one of the game rules will change.";
+        introText_three.text = "¡Ponga atención!";
+        introText_four.text = "Al comienzo de cada ronda, una de las reglas del juego cambiará.";
         introButton.onClick.AddListener(scoreConfig);
 
     }
@@ -176,7 +189,7 @@ public class GameGenerator : MonoBehaviour
         ballsLeft.SetActive(false);
         Score = 0;
         Log log = new Log("PRE-ROUND", "NO SHOT", Score); // double check this
-        //RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameHandler.playerId + "/fball.json", log);
+        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         if(TaskGenerator.scenes.Count == 0) {
             loadTest();
             return;
@@ -284,7 +297,7 @@ public class GameGenerator : MonoBehaviour
     }
 
     void url() {
-        Application.OpenURL("https://jlopez616.github.io/fractionball/experiment.html?id=" + playerId);
+        Application.OpenURL("https://stem-lab.vercel.app/tol.html?id=" + playerId);
     }
 
     void StartGame() {
