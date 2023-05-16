@@ -445,6 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.67
+  is_fraction: 1
   bball: {fileID: 726617291}
 --- !u!212 &56122956
 SpriteRenderer:
@@ -730,6 +731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.25
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!60 &98719700
 PolygonCollider2D:
@@ -1476,6 +1478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
+  is_fraction: 1
   bball: {fileID: 726617291}
 --- !u!212 &399925917
 SpriteRenderer:
@@ -1576,6 +1579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.25
+  is_fraction: 1
   bball: {fileID: 726617291}
 --- !u!60 &433836725
 PolygonCollider2D:
@@ -2599,6 +2603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.33
+  is_fraction: 1
   bball: {fileID: 726617291}
 --- !u!212 &760720457
 SpriteRenderer:
@@ -4011,6 +4016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!212 &1219479109
 SpriteRenderer:
@@ -4316,10 +4322,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4d26b3fc5c9664d529c78d1faf44d95c, type: 3}
-    m_FontSize: 12
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 1
     m_AlignByGeometry: 0
@@ -4353,8 +4359,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -168, y: -103.3}
-  m_SizeDelta: {x: 172.69, y: 54.7384}
+  m_AnchoredPosition: {x: -168, y: -115}
+  m_SizeDelta: {x: 172.69, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1477767234
 GameObject:
@@ -4404,6 +4410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.33
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!60 &1477767237
 PolygonCollider2D:
@@ -4994,6 +5001,7 @@ MonoBehaviour:
   fourth_ring: {fileID: 1161366398}
   hitShot: {fileID: 1283257183}
   missShot: {fileID: 687051582}
+  targetText: {fileID: 73220900}
 --- !u!1 &1765035413
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,6 +5134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.67
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!60 &1767233022
 PolygonCollider2D:
@@ -5369,7 +5378,7 @@ MonoBehaviour:
   shootButton: {fileID: 1630384585}
   coachText: {fileID: 1389305002}
   targetText: {fileID: 73220900}
-  timerText: {fileID: 1109686524}
+  timerText: {fileID: 0}
   ballsLeft: {fileID: 337114200}
   ballOne: {fileID: 1136114408}
   ballTwo: {fileID: 266981849}

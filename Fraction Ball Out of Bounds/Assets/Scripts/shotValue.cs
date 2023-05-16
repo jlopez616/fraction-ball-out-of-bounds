@@ -6,6 +6,7 @@ public class shotValue : MonoBehaviour
 {
 
     public double value;
+    public bool is_fraction;
     public GameObject bball;
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class shotValue : MonoBehaviour
         if (collider.gameObject.name == "character_feet")
         {
             GameGenerator.shotValue = value;
+            GameGenerator.isFractionCourt = is_fraction;
         }
 
         Physics2D.IgnoreCollision(bball.GetComponent<Collider2D>(), GetComponent<Collider2D>());
