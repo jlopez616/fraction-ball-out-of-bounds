@@ -252,28 +252,27 @@ public class GameGenerator : MonoBehaviour
             introText_three.text = "";
             introText_four.text = "";
         } else if(currentScene.gameSetting == "EXACTLY") {
-            Debug.Log("reached exactly");
-            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
+            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore() + " with the LEAST number of shots.";
+            introText_three.text = "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + " con la MENOR cantidad de tiros.";
             if(unlimitedShots == true){
                 numberOfBalls = 100000;
-                introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
-                introText_three.text = "Round Boost: You have as many shots as you want!";
+                introText_two.text = "Special Rule: You have as many shots as you want!";
+                introText_four.text = "Regla Especial: ¡Tienes tantos tiros como quieras!";
             } else {
-                introText_two.text = "You only have " + numberOfBalls + " shots.";
-                introText_three.text = "Round Boost: Your player will never miss a shot!";
+                introText_two.text = "Special Rule: You only have " + numberOfBalls + " shots, but your player will never miss a shot!";
+                introText_four.text = "Regla especial: solo tienes " + numberOfBalls + " tiros, ¡pero tu jugador nunca fallará un tiro!";
             }
-            introText_four.text = "";
         } else if(currentScene.gameSetting == "EXACTLY FLIP") {
-            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore();
+            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore() + "with the LEAST number of shots.";
+            introText_three.text = "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + "con la MENOR cantidad de tiros.";
             if(unlimitedShots == true){
                 numberOfBalls = 100000;
-                introText_two.text = "Try and make " + DisplayGoalScore() + " with the LEAST number of shots";
-                introText_three.text = "Round Boost: You have as many shots as you want!";
+                introText_two.text = "Special Rule: Only shoot from the side of the court we tell you to!";
+                introText_four.text = "Regla Especial: ¡¡Dispara solo desde el lado de la cancha que te indiquemos!";
             } else {
-                introText_two.text = "You only have " + numberOfBalls + " shots.";
-                introText_three.text = "Round Boost: Your player will never miss a shot!";
+                introText_two.text = "Special Rule: Only shoot from the side of the court we tell you to, with" + numberOfBalls + "shots!";
+                introText_four.text = "Regla Especial: ¡¡Dispara solo desde el lado de la cancha que te indiquemos, con" + numberOfBalls + "tiros!";
             }
-            introText_four.text = "Ready to play EXACTLY FLIP";
         }
 
         //This affects the canvas
@@ -330,11 +329,11 @@ public class GameGenerator : MonoBehaviour
         // numberline.SetActive(true);
           // display target only when in EXACTLY MODE
         if(!timerActive)
-            targetText.text = "Target: " + goalString;
+            targetText.text = "Target/Tarjeta: " + goalString;
         if(GameSetting == "EXACTLY FLIP") {
-            coachText.text = "Shoot from Fraction Court!! 3..2..1..Shoot!";
+            coachText.text = "Fraction side!  \n ¡El lado de fracción! \n";
         } else 
-            coachText.text = "3..2..1..Shoot!";
+            coachText.text = "3..2..1..Shoot!  \n ¡Disparar!";
 
         shootButton.SetActive(true);
         IntroPanel.SetActive(false);
@@ -390,8 +389,8 @@ public class GameGenerator : MonoBehaviour
             shootButton.SetActive(false);
             coachText.text = "";
             targetText.text = "";
-            introText_one.text = "Oh no, you scored from the wrong side of the Court !!";
-            introText_two.text = "";
+            introText_one.text = "Oh no, you scored from the wrong side of the court!";
+            introText_two.text = "¡Oh no, anotaste desde el lado equivocado de la cancha!";
             introText_three.text = "";
             introText_four.text = "";
             flipTermination = false;
@@ -416,7 +415,7 @@ public class GameGenerator : MonoBehaviour
                 coachText.text = "";
                 targetText.text = "";
                 introText_one.text = "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!";
-                introText_two.text = "";
+                introText_two.text = "¡Felicitaciones! ¡Obtuviste ”exactamente” " + ScoreToFraction(Score) + " puntos!";
                 introText_three.text = "";
                 introText_four.text = "";
 
@@ -437,7 +436,7 @@ public class GameGenerator : MonoBehaviour
                 coachText.text = "";
                 targetText.text = "";
                 introText_one.text = "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead.";
-                introText_two.text = "";
+                introText_two.text = "Oh, no, anotó " + ScoreToFraction(Score) + " puntos. Necesitaba exactamente " + goalString + " puntos en su lugar.";
                 introText_three.text = "";
                 introText_four.text = "";
             }

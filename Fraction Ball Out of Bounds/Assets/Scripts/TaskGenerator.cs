@@ -88,10 +88,10 @@ public class TaskGenerator : MonoBehaviour {
 
         switch (GameSetting) {
             case "EXACTLY":
-                scenes.Enqueue(exactly_decimal_limited);
-                scenes.Enqueue(exactly_decimal_unlimited);
-                scenes.Enqueue(exactly_fraction_limited);
-                scenes.Enqueue(exactly_fraction_unlimited);
+               // scenes.Enqueue(exactly_decimal_limited);
+               // scenes.Enqueue(exactly_decimal_unlimited);
+               // scenes.Enqueue(exactly_fraction_limited);
+               // scenes.Enqueue(exactly_fraction_unlimited);
                 scenes.Enqueue(exactly_flip_unlimited);
                 scenes.Enqueue(exactly_flip_limited);
                 break;
@@ -100,10 +100,10 @@ public class TaskGenerator : MonoBehaviour {
                 // scenes.Enqueue(exactly_decimal_limited);
                 break;
             case "EXACTLY FLIP":
-                scenes.Enqueue(exactly_decimal_limited);
-                scenes.Enqueue(exactly_decimal_unlimited);
-                scenes.Enqueue(exactly_fraction_limited);
-                scenes.Enqueue(exactly_fraction_unlimited);
+               // scenes.Enqueue(exactly_decimal_limited);
+               // scenes.Enqueue(exactly_decimal_unlimited);
+                //scenes.Enqueue(exactly_fraction_limited);
+                //scenes.Enqueue(exactly_fraction_unlimited);
                 scenes.Enqueue(exactly_flip_unlimited);
                 scenes.Enqueue(exactly_flip_limited);
                 break;

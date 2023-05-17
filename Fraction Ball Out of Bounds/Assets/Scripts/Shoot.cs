@@ -81,15 +81,13 @@ public class Shoot : MonoBehaviour
             if(GameGenerator.shotcount % 2 == 0) {
                 GameGenerator.actualFractionCourt = !GameGenerator.actualFractionCourt;
                 if(GameGenerator.actualFractionCourt == true){
-                    coachText.text = "FLIP. Only Shoot from Fraction Court \n";
+                    coachText.text = "Fraction side! ¡El lado de fracción! \n";
                     GameGenerator.GameMode = "FRACTIONS";
                 } else {
-                    coachText.text = "FLIP. Only Shoot from Decimal Court \n";
+                    coachText.text = "Decimal side! ¡El lado decimal! \n";
                     GameGenerator.GameMode = "DECIMALS";
                 }
-                targetText.text = "Target: " + GameGenerator.DisplayGoalScore();
-            } else {
-                coachText.text = "";
+                targetText.text = "Target / Tarjeta: " + GameGenerator.DisplayGoalScore();
             }
         } else {
             coachText.text = "";
@@ -105,7 +103,7 @@ public class Shoot : MonoBehaviour
                 newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
             }
             
-            coachText.text += "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
+            coachText.text += "Success! ¡Éxito!  \n " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
             
@@ -120,7 +118,7 @@ public class Shoot : MonoBehaviour
             }
 
         } else {
-            coachText.text += "Shot missed! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
+            coachText.text += "Miss! ¡Extrañar! \n" + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
             hitShotAudio.Stop(); 
             missShotAudio.Play();
             shotHit = "FALSE";
