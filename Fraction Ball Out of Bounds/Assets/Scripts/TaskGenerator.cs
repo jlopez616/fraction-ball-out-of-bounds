@@ -33,12 +33,12 @@ public class TaskGenerator : MonoBehaviour {
         //CHANGE THIS LINE BASED ON GAME SETTING
         // GameSetting = "EXACTLY";
         // GameSetting = "RAPID FIRE"; // to test rapid fire
-        GameSetting = "EXACTLY FLIP"; // to test rapid fire
+        GameSetting = "EXACTLY";
         //1 is Exactly
         //2 is Make it Count
         //3 is Rapid Fire
 
-        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
+        bool fourths_scene = true; // set this to true if notation is fourths otherwise false
 
         if (fourths_scene) {
             if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
@@ -73,27 +73,39 @@ public class TaskGenerator : MonoBehaviour {
         GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "RAPID FIRE"); 
 
         // To test Exactly flip
-        GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
-        GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
-        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
-        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");  
+        //GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
+        //GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
+        //GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
+        //GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP"); 
+
+        //May 2023 Study
+        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day", "EXACTLY");
+        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day", "EXACTLY");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY");
+        GameState exactly_flip_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
+        GameState exactly_flip_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
 
         switch (GameSetting) {
             case "EXACTLY":
-                // scenes.Enqueue(exactly_decimal_limited);
-                // scenes.Enqueue(exactly_decimal_unlimited);
-                // scenes.Enqueue(exactly_fraction_limited);
-                // scenes.Enqueue(exactly_fraction_unlimited);
+               // scenes.Enqueue(exactly_decimal_limited);
+               // scenes.Enqueue(exactly_decimal_unlimited);
+               // scenes.Enqueue(exactly_fraction_limited);
+               // scenes.Enqueue(exactly_fraction_unlimited);
+                scenes.Enqueue(exactly_flip_unlimited);
+                scenes.Enqueue(exactly_flip_limited);
                 break;
             case "RAPID FIRE":
                 scenes.Enqueue(rapid_fire_fractions);
                 // scenes.Enqueue(exactly_decimal_limited);
                 break;
             case "EXACTLY FLIP":
-                scenes.Enqueue(exactly_decimal_limited);
-                scenes.Enqueue(exactly_decimal_unlimited);
-                scenes.Enqueue(exactly_fraction_limited);
-                scenes.Enqueue(exactly_fraction_unlimited);
+               // scenes.Enqueue(exactly_decimal_limited);
+               // scenes.Enqueue(exactly_decimal_unlimited);
+                //scenes.Enqueue(exactly_fraction_limited);
+                //scenes.Enqueue(exactly_fraction_unlimited);
+                scenes.Enqueue(exactly_flip_unlimited);
+                scenes.Enqueue(exactly_flip_limited);
                 break;
 
         }
