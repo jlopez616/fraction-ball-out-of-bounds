@@ -45,8 +45,7 @@ public class Character : MonoBehaviour
 
                 GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
                 Log log = new Log("MOVE", "", GameGenerator.Score);
-                // Debug.Log(character.transform.position.y);
-                //RestClient.Post("https://fractionball2022-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+                RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             }
         }
     }
