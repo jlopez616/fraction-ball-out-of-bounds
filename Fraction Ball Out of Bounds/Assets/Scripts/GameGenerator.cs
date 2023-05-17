@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using Proyecto26;
 using static System.Math;
+using TMPro;
 public class GameGenerator : MonoBehaviour
 
 {
@@ -43,6 +44,8 @@ public class GameGenerator : MonoBehaviour
     //UI Related
     public GameObject numberline;
     public GameObject shootButton;
+    public GameObject InputSequence;
+    public TMP_InputField InputSeq;
     public Text coachText;
     public Text targetText;
     public Text timerText; // text field for timer
@@ -187,6 +190,7 @@ public class GameGenerator : MonoBehaviour
     void scoreConfig()
     {
         ballsLeft.SetActive(false);
+        InputSequence.SetActive(false);
         Score = 0;
         Log log = new Log("PRE-ROUND", "NO SHOT", Score); // double check this
         RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
@@ -194,9 +198,11 @@ public class GameGenerator : MonoBehaviour
             loadTest();
             return;
         }
-       
+        Debug.Log(TaskGenerator.scenes.Count);
         currentScene = TaskGenerator.scenes.Peek();
-        if(currentScene.gameSetting=="EXACTLY" || currentScene.gameSetting=="EXACTLY FLIP"){
+        Debug.Log(currentScene.representation);
+        Debug.Log(currentScene.limitedShots);
+        if(currentScene.gameSetting != "RAPID FIRE"){
             //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
             if (currentScene.goalScore == "0") {
@@ -209,7 +215,7 @@ public class GameGenerator : MonoBehaviour
                         numerator = 1;
                     }
                     double fractionScore = System.Math.Round((double)numerator/denominator, 2);
-
+                
                     if(numerator == 0){
                         goalScoreFraction = goalScore.ToString();
                     } else{
@@ -234,7 +240,7 @@ public class GameGenerator : MonoBehaviour
             originalGoalScore = goalScore; // Analytics, do not touch this for now
 
             numberOfBalls = getNumberOfBalls(goalScore);
-        } else if (currentScene.gameSetting=="RAPID FIRE"){
+        } else {
             // gameSetting = "RAPID FIRE";
             timerActive = true;
             rapidTotalTime = 60.0f;
@@ -251,7 +257,7 @@ public class GameGenerator : MonoBehaviour
             introText_two.text = "Try and make as much as you can with the LEAST number of shots";
             introText_three.text = "";
             introText_four.text = "";
-        } else if(currentScene.gameSetting == "EXACTLY") {
+        } else if(currentScene.gameSetting == "EXACTLY" || currentScene.gameSetting == "EXACTLY LETTERS")) {
             introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore() + " with the LEAST number of shots.";
             introText_three.text = "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + " con la MENOR cantidad de tiros.";
             if(unlimitedShots == true){
@@ -283,23 +289,69 @@ public class GameGenerator : MonoBehaviour
             fractionCourtLabels.SetActive(false);
             decimalCourtLabels.SetActive(true);
             spriteArray = decimalspriteArray;
-        } else if (currentScene.representation == "FRACTIONS"){
+        } else if (currentScene.representation == "FRACTIONS") {
             spriteArray = fractionspriteArray;
             decimalCourtLabels.SetActive(false);
             fractionCourtLabels.SetActive(true);
         }
+
+        if(currentScene.gameSetting == "EXACTLY LETTERS") {
+            introButton.onClick.RemoveAllListeners();
+            introButton.onClick.AddListener(exactlyLetters);
+        } else {
+            goalString = DisplayGoalScore();
+            introButton.onClick.RemoveAllListeners();
+            introButton.onClick.AddListener(startGame);
+            introButtonText.text = "Start";
+        }
+    }
+
+    void exactlyLetters() {
+        introText_one.text = "Remember the following sequence";
+        introText_two.text = "Enter this after the end of round";
+        string sequence = "";
+        if (currentScene.notation == "thirds") {
+            if (currentScene.representation == "DECIMALS") {
+                if (currentScene.limitedShots){
+                    sequence = "C Q D N";
+                } else {
+                    sequence = "G X W S";
+                }
+            } else {
+                if (currentScene.limitedShots){
+                    sequence = "P D V R";
+                } else {
+                    sequence = "A T S W";
+                }
+            }
+        } else if(currentScene.notation == "fourths") {
+            if (currentScene.representation == "DECIMALS") {
+                if (currentScene.limitedShots){
+                    sequence = "V X V E";
+                } else {
+                    sequence = "O L H W";
+                }
+            } else {
+                if (currentScene.limitedShots){
+                    sequence = "R B Q P";
+                } else {
+                    sequence = "D Q C N";
+                }
+            }
+        }
+        introText_three.text = sequence;
+        introText_four.text = "";
         goalString = DisplayGoalScore();
         introButton.onClick.RemoveAllListeners();
-        introButton.onClick.AddListener(StartGame);
+        introButton.onClick.AddListener(startGame);
         introButtonText.text = "Start";
-
     }
 
     void url() {
         Application.OpenURL("https://stem-lab.vercel.app/tol.html?id=" + playerId);
     }
 
-    void StartGame() {
+    void startGame() {
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
         // set rapid timer active for RAPID FIRE
@@ -445,12 +497,26 @@ public class GameGenerator : MonoBehaviour
         {
             excess_shots = excess_shots + (round_num_of_shots - getNumberOfBalls(Score));
         }
-        introButton.onClick.RemoveAllListeners();
-        introButton.onClick.AddListener(scoreConfig);
-        TaskGenerator.scenes.Dequeue();
+        
+        if (currentScene.gameSetting == "EXACTLY LETTERS") {
+            InputSequence.SetActive(true);
+            introText_three.text = "Enter the sequence and press Start";
+            introButton.onClick.RemoveAllListeners();
+            introButton.onClick.AddListener(tryMe);
+        } else{
+            introButton.onClick.RemoveAllListeners();
+            introButton.onClick.AddListener(scoreConfig);
+            TaskGenerator.scenes.Dequeue();
+        }
     }
 
-
+    void tryMe() {
+    
+        Debug.Log(InputSeq.text);
+        InputSeq.text = "";
+        TaskGenerator.scenes.Dequeue();
+        scoreConfig();
+    }
 
 
     void loadTest()

@@ -54,12 +54,12 @@ public class TaskGenerator : MonoBehaviour {
         
 
         // every possible level configuration of the intervention or evaluation will be generated here
-        // /*
+        // 
         // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
         // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
         // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
         // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
-        // */
+        // 
 
         // To test thirds condition 
         /*
@@ -100,14 +100,17 @@ public class TaskGenerator : MonoBehaviour {
                 // scenes.Enqueue(exactly_decimal_limited);
                 break;
             case "EXACTLY FLIP":
-               // scenes.Enqueue(exactly_decimal_limited);
-               // scenes.Enqueue(exactly_decimal_unlimited);
-                //scenes.Enqueue(exactly_fraction_limited);
-                //scenes.Enqueue(exactly_fraction_unlimited);
-                scenes.Enqueue(exactly_flip_unlimited);
-                scenes.Enqueue(exactly_flip_limited);
+                // scenes.Enqueue(exactly_decimal_limited);
+                // scenes.Enqueue(exactly_decimal_unlimited);
+                // scenes.Enqueue(exactly_fraction_limited);
+                // scenes.Enqueue(exactly_fraction_unlimited);
                 break;
-
+            case "EXACTLY LETTERS":
+                scenes.Enqueue(exactly_decimal_limited);
+                scenes.Enqueue(exactly_fraction_unlimited);
+                scenes.Enqueue(exactly_fraction_limited);
+                scenes.Enqueue(exactly_decimal_unlimited);
+                break;
         }
         //if goalScoreValue == 0; Game Compiler will randomly assign a score
 
