@@ -280,7 +280,7 @@ public class GameGenerator : MonoBehaviour
             introText_four.text = "";
         } else if(currentScene.gameSetting == "EXACTLY" || currentScene.gameSetting == "EXACTLY LETTERS") {
             introText_one.text = (language == "ENGLISH") ? "For this round, score EXACTLY " + DisplayGoalScore() + " with the LEAST number of shots." :  "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + " con la MENOR cantidad de tiros.";
-            introText_three.text = ""
+            introText_three.text = "";
             if(unlimitedShots == true){
                 numberOfBalls = 100000;
                 introText_two.text = (language == "ENGLISH") ? "Special Rule: You have as many shots as you want!" :  "Regla Especial: ¡Tienes tantos tiros como quieras!";
