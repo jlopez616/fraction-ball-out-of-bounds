@@ -9,23 +9,28 @@ using TMPro;
 public class GameGenerator : MonoBehaviour
 
 {
-
+    public string language;
     public GameObject IntroUI; //Describes the whole Intro UI System
     public Text introText_one; //First line for intro
     public Text introText_two; //Second line for intro
     public Text introText_three; //Third line for intro
     public Text introText_four; //Fourth line for intro
     public GameObject IntroPanel; //Background for intro screen
+    public GameObject languageButtons;
+    public GameObject navigationButtons;
     public Button introButton;
+    public Button englishButton;
+    public Button spanishButton;
     public Text introButtonText; //Text for the continue button
 
     public static string playerId; //ID of user
 
     public static string notation; //fractions or decimals
     public static string representation; //thirds, fourths, fifths, sixths
-        public static bool timerActive ; // to set timer active for RAPID FIRE MODE
+    public static bool timerActive ; // to set timer active for RAPID FIRE MODE
     public static float rapidTimeStart; // to start a time value for RAPID FIRE MODE
     public static float rapidTotalTime; // total timer for RAPID FIRE
+    public static string user_input; // DATA COLLECTED FROM USER;
 
     public int number_of_problems = 4; // number of problems to give to player
 
@@ -104,20 +109,32 @@ public class GameGenerator : MonoBehaviour
 
 
     //Queue to store scenes
-
+    public void GetQueryVariable(string id)
+    {
+        playerId = id;
+    }
     // Start is called before the first frame update
     void Start()
     {
-
         //This part of code used to rearanges the scenes into a random order
         IntroPanel.SetActive(true);
-        introText_one.text = "Ready to play, " + playerId + "?";
-        introText_two.text = "¿Listo para jugar, " + playerId + "?";
-        introButtonText.text = "Yes! ¡Sí!";
-        introButton.onClick.AddListener(introOne);
+        navigationButtons.SetActive(false);
+        introText_one.text = "Please pick your preferred language, " + playerId + "!";
+        introText_three.text = "Por favor elige tu idioma preferido, " + playerId + "!";
+        englishButton.onClick.AddListener(setEnglish);
+        spanishButton.onClick.AddListener(setSpanish);
 
 
 
+    }
+    void setEnglish() {
+        language = "ENGLISH";
+        introOne();
+    }
+
+    void setSpanish() {
+        language = "SPANISH";
+        introOne();
     }
 
     //Want better system for coding names:
@@ -126,11 +143,15 @@ public class GameGenerator : MonoBehaviour
     {
         //Suggestion: array of strings
         //New text generator file
-        introText_one.text = "Challenge 1: Score EXACTLY a number that you get.";
-        introText_two.text = "Challenge 2: Don't score over it or you will lose.";
-        introText_three.text = "Desafío 1: Marca EXACTAMENTE un número que obtengas.";
-        introText_four.text = "Desafío 2: No lo superes o perderás.";
-        introButtonText.text = "Continue / Continuar";
+        englishButton.onClick.RemoveAllListeners();
+        spanishButton.onClick.RemoveAllListeners();
+        languageButtons.SetActive(false);
+        navigationButtons.SetActive(true);
+        introText_one.text = (language == "ENGLISH") ? "Challenge 1: Score EXACTLY a number that you get.": "Desafío 1: Marque EXACTAMENTE un número que obtenga.";
+        introText_two.text = (language == "ENGLISH") ? "Challenge 2: Don't score over it or you will lose.": "Desafío 2: No lo superes o perderás.";
+        introText_three.text = "";
+        introText_four.text = "";
+        introButtonText.text = (language == "ENGLISH") ? "Continue": "Continuar";
         introButton.onClick.RemoveAllListeners();
         introButton.onClick.AddListener(gameConfigOne);
 
@@ -139,10 +160,10 @@ public class GameGenerator : MonoBehaviour
 
     void gameConfigOne()
     {
-        introText_one.text = "Click on the court to move.";
-        introText_two.text = "Click on the SHOOT button to shoot a basketball.";
-        introText_three.text = "Haz clic en la cancha para moverte";
-        introText_four.text = "Haz clic en el botón SHOOT para disparar una pelota de baloncesto.";
+        introText_one.text = (language == "ENGLISH") ? "Click on the court to move." : "Haz clic en la cancha para moverte";
+        introText_two.text = (language == "ENGLISH") ? "Click on the SHOOT button to shoot a basketball." : "Haz clic en el botón SHOOT para disparar una pelota de baloncesto.";
+        introText_three.text = "";
+        introText_four.text = "";
         introButton.onClick.RemoveAllListeners();
         introButton.onClick.AddListener(gameConfigTwo);
 
@@ -151,10 +172,10 @@ public class GameGenerator : MonoBehaviour
 
     void gameConfigTwo()
     {
-        introText_one.text = "Pay attention!";
-        introText_two.text = "At the start of each round, one of the game rules will change.";
-        introText_three.text = "¡Ponga atención!";
-        introText_four.text = "Al comienzo de cada ronda, una de las reglas del juego cambiará.";
+        introText_one.text = (language == "ENGLISH") ? "Pay attention!" : "¡Ponga atención!";
+        introText_two.text = (language == "ENGLISH") ? "At the start of each round, one of the game rules will change." : "Al comienzo de cada ronda, una de las reglas del juego cambiará.";
+        introText_three.text = "";
+        introText_four.text = "";
         introButton.onClick.AddListener(scoreConfig);
 
     }
@@ -253,31 +274,31 @@ public class GameGenerator : MonoBehaviour
         // this UI setting is for RAPID FIRE
         if(currentScene.gameSetting == "RAPID FIRE"){
             numberOfBalls = 100000;
-            introText_one.text = "For this round, you have 1 minute";
-            introText_two.text = "Try and make as much as you can with the LEAST number of shots";
-            introText_three.text = "";
+            introText_one.text = (language == "ENGLISH") ? "For this round, practice shooting!": "¡Para esta ronda, practica tiro!";
+            introText_two.text = "";
+            introText_three.text = (language == "ENGLISH") ? "Score as high as you can, with the fewest number of shots." : "¡Anota lo más alto que puedas, con el menor número de tiros.";
             introText_four.text = "";
-        } else if(currentScene.gameSetting == "EXACTLY" || currentScene.gameSetting == "EXACTLY LETTERS")) {
-            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore() + " with the LEAST number of shots.";
-            introText_three.text = "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + " con la MENOR cantidad de tiros.";
+        } else if(currentScene.gameSetting == "EXACTLY" || currentScene.gameSetting == "EXACTLY LETTERS") {
+            introText_one.text = (language == "ENGLISH") ? "For this round, score EXACTLY " + DisplayGoalScore() + " with the LEAST number of shots." :  "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + " con la MENOR cantidad de tiros.";
+            introText_three.text = ""
             if(unlimitedShots == true){
                 numberOfBalls = 100000;
-                introText_two.text = "Special Rule: You have as many shots as you want!";
-                introText_four.text = "Regla Especial: ¡Tienes tantos tiros como quieras!";
+                introText_two.text = (language == "ENGLISH") ? "Special Rule: You have as many shots as you want!" :  "Regla Especial: ¡Tienes tantos tiros como quieras!";
+                introText_four.text = "";
             } else {
-                introText_two.text = "Special Rule: You only have " + numberOfBalls + " shots, but your player will never miss a shot!";
-                introText_four.text = "Regla especial: solo tienes " + numberOfBalls + " tiros, ¡pero tu jugador nunca fallará un tiro!";
+                introText_two.text = (language == "ENGLISH") ? "Special Rule: You only have " + numberOfBalls + " shots, but your player will never miss a shot!" : "Regla especial: solo tienes " + numberOfBalls + " tiros, ¡pero tu jugador nunca fallará un tiro!";
+                introText_four.text = "";
             }
         } else if(currentScene.gameSetting == "EXACTLY FLIP") {
-            introText_one.text = "For this round, score EXACTLY " + DisplayGoalScore() + "with the LEAST number of shots.";
-            introText_three.text = "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + "con la MENOR cantidad de tiros.";
+            introText_one.text = (language == "ENGLISH") ? "For this round, score EXACTLY " + DisplayGoalScore() + " with the LEAST number of shots." : "Para esta ronda, marque EXACTAMENTE " + DisplayGoalScore() + " con la MENOR cantidad de tiros.";
+            introText_three.text = "";
             if(unlimitedShots == true){
                 numberOfBalls = 100000;
-                introText_two.text = "Special Rule: Only shoot from the side of the court we tell you to!";
-                introText_four.text = "Regla Especial: ¡¡Dispara solo desde el lado de la cancha que te indiquemos!";
+                introText_two.text = (language == "ENGLISH") ? "Special Rule: Only shoot from the side of the court we tell you to!" : "Regla Especial: ¡¡Dispara solo desde el lado de la cancha que te indiquemos!";
+                introText_four.text = "";
             } else {
-                introText_two.text = "Special Rule: Only shoot from the side of the court we tell you to, with" + numberOfBalls + "shots!";
-                introText_four.text = "Regla Especial: ¡¡Dispara solo desde el lado de la cancha que te indiquemos, con" + numberOfBalls + "tiros!";
+                introText_two.text = (language == "ENGLISH") ? "Special Rule: Only shoot from the side of the court we tell you to, with " + numberOfBalls + " shots!" : "Regla Especial: ¡¡Dispara solo desde el lado de la cancha que te indiquemos, con " + numberOfBalls + " tiros!";
+                introText_four.text = "";
             }
         }
 
@@ -302,24 +323,23 @@ public class GameGenerator : MonoBehaviour
             goalString = DisplayGoalScore();
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(startGame);
-            introButtonText.text = "Start";
+            introButtonText.text = (language == "ENGLISH") ? "Start" : "Comenzar";
         }
     }
 
     void exactlyLetters() {
-        introText_one.text = "Remember the following sequence";
-        introText_two.text = "Enter this after the end of round";
+
         string sequence = "";
         if (currentScene.notation == "thirds") {
             if (currentScene.representation == "DECIMALS") {
                 if (currentScene.limitedShots){
-                    sequence = "C Q D N";
+                    sequence = "N X C E";
                 } else {
                     sequence = "G X W S";
                 }
             } else {
                 if (currentScene.limitedShots){
-                    sequence = "P D V R";
+                    sequence = "P X V R";
                 } else {
                     sequence = "A T S W";
                 }
@@ -327,24 +347,26 @@ public class GameGenerator : MonoBehaviour
         } else if(currentScene.notation == "fourths") {
             if (currentScene.representation == "DECIMALS") {
                 if (currentScene.limitedShots){
-                    sequence = "V X V E";
+                    sequence = "W E J L";
                 } else {
-                    sequence = "O L H W";
+                    sequence = "P L H W";
                 }
             } else {
                 if (currentScene.limitedShots){
-                    sequence = "R B Q P";
+                    sequence = "R B W P";
                 } else {
-                    sequence = "D Q C N";
+                    sequence = "X W C N";
                 }
             }
         }
-        introText_three.text = sequence;
+        introText_one.text = (language == "ENGLISH") ?  "Bonus Challenge: Remember as many letters as you can, in the right order!" : "Desafío de bonificación: recuerda tantas letras como puedas, ¡en el orden correcto!";
+        introText_two.text = sequence;
+        introText_three.text = "";
         introText_four.text = "";
         goalString = DisplayGoalScore();
         introButton.onClick.RemoveAllListeners();
         introButton.onClick.AddListener(startGame);
-        introButtonText.text = "Start";
+        introButtonText.text = (language == "ENGLISH") ? "Start" : "Comenzar";
     }
 
     void url() {
@@ -381,11 +403,11 @@ public class GameGenerator : MonoBehaviour
         // numberline.SetActive(true);
           // display target only when in EXACTLY MODE
         if(!timerActive)
-            targetText.text = "Target/Tarjeta: " + goalString;
+            targetText.text = (language == "ENGLISH") ?  "Goal \n" + DisplayGoalScore():  "Meta: \n" + DisplayGoalScore();
         if(GameSetting == "EXACTLY FLIP") {
-            coachText.text = "Fraction side!  \n ¡El lado de fracción! \n";
+            coachText.text = (language == "ENGLISH") ?  "Fraction side!" : "¡El lado de fracción!";
         } else 
-            coachText.text = "3..2..1..Shoot!  \n ¡Disparar!";
+            coachText.text = (language == "ENGLISH") ? "3..2..1..Shoot!" : "3..2..1..¡Disparar!";
 
         shootButton.SetActive(true);
         IntroPanel.SetActive(false);
@@ -441,8 +463,8 @@ public class GameGenerator : MonoBehaviour
             shootButton.SetActive(false);
             coachText.text = "";
             targetText.text = "";
-            introText_one.text = "Oh no, you scored from the wrong side of the court!";
-            introText_two.text = "¡Oh no, anotaste desde el lado equivocado de la cancha!";
+            introText_one.text = (language == "ENGLISH") ? "Oh no, you scored from the wrong side of the court!" : "¡Oh no, anotaste desde el lado equivocado de la cancha!";
+            introText_two.text = "";
             introText_three.text = "";
             introText_four.text = "";
             flipTermination = false;
@@ -455,7 +477,7 @@ public class GameGenerator : MonoBehaviour
                 coachText.text = "";
                 targetText.text = "";
                 timerText.text = "";
-                introText_one.text = "Congratulations! You scored " + ScoreToFraction(Score) + " points!";
+                introText_one.text = (language == "ENGLISH") ? "Congratulations! You got " + ScoreToFraction(Score) + " points!" : "¡Felicitaciones! ¡Obtuviste " + ScoreToFraction(Score) + " puntos!";
                 introText_two.text = "";
                 introText_three.text = "";
                 introText_four.text = "";
@@ -466,8 +488,8 @@ public class GameGenerator : MonoBehaviour
                 // numberline.SetActive(false);
                 coachText.text = "";
                 targetText.text = "";
-                introText_one.text = "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!";
-                introText_two.text = "¡Felicitaciones! ¡Obtuviste ”exactamente” " + ScoreToFraction(Score) + " puntos!";
+                introText_one.text = (language == "ENGLISH") ? "Congratulations! You got “exactly” " + ScoreToFraction(Score) + " points!" : "¡Felicitaciones! ¡Obtuviste ”exactamente” " + ScoreToFraction(Score) + " puntos!";
+                introText_two.text = "";
                 introText_three.text = "";
                 introText_four.text = "";
 
@@ -487,8 +509,8 @@ public class GameGenerator : MonoBehaviour
                 // numberline.SetActive(false);
                 coachText.text = "";
                 targetText.text = "";
-                introText_one.text = "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead.";
-                introText_two.text = "Oh, no, anotó " + ScoreToFraction(Score) + " puntos. Necesitaba exactamente " + goalString + " puntos en su lugar.";
+                introText_one.text = (language == "ENGLISH") ? "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead." :  "Oh, no, anotó " + ScoreToFraction(Score) + " puntos. Necesitaba exactamente " + goalString + " puntos en su lugar.";
+                introText_two.text = "";
                 introText_three.text = "";
                 introText_four.text = "";
             }
@@ -500,20 +522,25 @@ public class GameGenerator : MonoBehaviour
         
         if (currentScene.gameSetting == "EXACTLY LETTERS") {
             InputSequence.SetActive(true);
-            introText_three.text = "Enter the sequence and press Start";
+            introText_two.text = (language == "ENGLISH") ?  "Enter as many letters as you remember, in the right order, and press continue. " : "Ingrese tantas letras como recuerde, en el orden correcto, y presione continuar. ";
+            introText_four.text = "";
+            introButtonText.text = (language == "ENGLISH") ? "Continue" : "Continuar";
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(tryMe);
         } else{
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(scoreConfig);
+            Log log = new Log("POST-ROUND", "NO SHOT", Score); // double check this
+            RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             TaskGenerator.scenes.Dequeue();
         }
     }
 
     void tryMe() {
-    
-        Debug.Log(InputSeq.text);
+        user_input = InputSeq.text;
         InputSeq.text = "";
+         Log log = new Log("POST-ROUND", "NO SHOT", Score); // double check this
+        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         TaskGenerator.scenes.Dequeue();
         scoreConfig();
     }
@@ -521,10 +548,7 @@ public class GameGenerator : MonoBehaviour
 
     void loadTest()
     {
-        IntroPanel.SetActive(true);
-        introButtonText.text = "Click me!";
-        introButton.onClick.AddListener(url);
-        introText_one.text = "Nice job! Thank you for playing!";
+        introText_one.text = (language == "ENGLISH") ?  "Nice job! Thank you for playing!" : "¡Buen trabajo! ¡Gracias por jugar!";
         introText_two.text = "";
         introText_three.text = "";
         introText_four.text = "";
@@ -592,7 +616,7 @@ public class GameGenerator : MonoBehaviour
                 float remainingtime = rapidTotalTime - elapsedTime;
                 // Debug.Log(remainingtime);
                 int remainder = (int) remainingtime;
-                timerText.text = "Time left: " + remainder.ToString();
+                timerText.text = (language == "ENGLISH") ? "Clock: \n " + remainder.ToString() : "Reloj: \n " + remainder.ToString();
                 if(remainingtime<=0.0f){
                     timerActive = false;
                     timerText.text = "";

@@ -30,7 +30,9 @@ public class Shoot : MonoBehaviour
     {
         
         hitShotAudio = hitShot.GetComponent<AudioSource>();
+        hitShotAudio.volume =  0.2f;
         missShotAudio = missShot.GetComponent<AudioSource>();
+        missShotAudio.volume =  0.2f;
         endPos = net.transform.position;
         shootBall.onClick.AddListener(OnClick);
     }
@@ -80,15 +82,15 @@ public class Shoot : MonoBehaviour
             GameGenerator.shotcount+=1;
             if(GameGenerator.shotcount % 2 == 0) {
                 GameGenerator.actualFractionCourt = !GameGenerator.actualFractionCourt;
-                if(GameGenerator.actualFractionCourt == true){
-                    coachText.text = "Fraction side! ¡El lado de fracción! \n";
+            }
+             if(GameGenerator.actualFractionCourt == true){
+                    coachText.text = (language == "ENGLISH") ? "Fraction side!" : "¡El lado de fracción!";
                     GameGenerator.GameMode = "FRACTIONS";
                 } else {
-                    coachText.text = "Decimal side! ¡El lado decimal! \n";
+                    coachText.text = (language == "ENGLISH") ? "Decimal side!" : "¡El lado de decimal!";
                     GameGenerator.GameMode = "DECIMALS";
                 }
-                targetText.text = "Target / Tarjeta: " + GameGenerator.DisplayGoalScore();
-            }
+                targetText.text = "Goal/Meta: \n" + GameGenerator.DisplayGoalScore();
         } else {
             coachText.text = "";
         }
@@ -102,8 +104,7 @@ public class Shoot : MonoBehaviour
             }   else {
                 newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
             }
-            
-            coachText.text += "Success! ¡Éxito!  \n " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
+            coachText.text += (language == "ENGLISH") ? "Success!\n " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore) : (language == "ENGLISH") ? "Éxito!\n " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
             
@@ -118,7 +119,7 @@ public class Shoot : MonoBehaviour
             }
 
         } else {
-            coachText.text += "Miss! ¡Extrañar! \n" + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
+            coachText.text +=(language == "ENGLISH") ? "Miss!\n" + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score):  "¡Extrañar! \n" + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+0=" + GameGenerator.ScoreToFraction(GameGenerator.Score);
             hitShotAudio.Stop(); 
             missShotAudio.Play();
             shotHit = "FALSE";

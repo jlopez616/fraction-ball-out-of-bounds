@@ -20,6 +20,7 @@ public class Log
     public double priorScoreDiff;
     public double newScoreDiff;
     public double goal;
+    public string input;
     //public string amtID;
     public bool unlimitedShots;
     public int ballsLeft;
@@ -44,6 +45,7 @@ public class Log
         priorScoreDiff = GameGenerator.goalScore - OldScore;
         newScoreDiff = GameGenerator.goalScore - Score;
         goal = GameGenerator.goalScore;
+        input = GameGenerator.user_input;
        // amtID = GameGenerator.amtID;
         unlimitedShots = GameGenerator.unlimitedShots;
         ballsLeft = GameGenerator.ballsRemaining;
