@@ -9,7 +9,7 @@ using TMPro;
 public class GameGenerator : MonoBehaviour
 
 {
-    public string language;
+    public static string language;
     public GameObject IntroUI; //Describes the whole Intro UI System
     public Text introText_one; //First line for intro
     public Text introText_two; //Second line for intro
