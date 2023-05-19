@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.5
-  is_fraction: 1
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!212 &56122956
 SpriteRenderer:
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   fourth_ring: {fileID: 0}
   hitShot: {fileID: 1283257183}
   missShot: {fileID: 687051582}
-  targetText: {fileID: 1474153386}
+  targetText: {fileID: 0}
 --- !u!114 &328621471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1678,7 +1678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
-  is_fraction: 1
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!212 &399925917
 SpriteRenderer:
@@ -1901,7 +1901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.25
-  is_fraction: 1
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!60 &433836725
 PolygonCollider2D:
@@ -3056,7 +3056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.25
-  is_fraction: 1
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!212 &760720457
 SpriteRenderer:
@@ -5577,7 +5577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 0.75
-  is_fraction: 1
+  is_fraction: 0
   bball: {fileID: 726617291}
 --- !u!212 &1500781448
 SpriteRenderer:
@@ -6485,7 +6485,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0a20ea7ba5e491ebdeaca86792b329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  language: 
   IntroUI: {fileID: 610142867}
   introText_one: {fileID: 283411329}
   introText_two: {fileID: 1728725705}
