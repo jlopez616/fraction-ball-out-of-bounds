@@ -38,7 +38,7 @@ public class TaskGenerator : MonoBehaviour {
         //2 is Make it Count
         //3 is Rapid Fire
 
-        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
+        bool fourths_scene = true; // set this to true if notation is fourths otherwise false
 
         if (fourths_scene) {
             if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
@@ -69,8 +69,10 @@ public class TaskGenerator : MonoBehaviour {
         GameState rapid_fire_decimals = new GameState("DECIMALS", "0", "fourths", 0, false, "day","RAPID FIRE"); 
 
         // Exactly ghost
-        GameState exactly_ghost_fractions = new GameState("DECIMALS", "0", "thirds", 0, true, "day","EXACTLY GHOST");
-
+        GameState exactly_ghost_fractions = new GameState("FRACTIONS", "0", "fourths", 0, true, "day","EXACTLY GHOST");
+        GameState exactly_ghost_decimals = new GameState("DECIMALS", "0", "fourths", 0, true, "day","EXACTLY GHOST");
+        // GameState exactly_ghost_fractions = new GameState("FRACTIONS", "0", "thirds", 0, true, "day","EXACTLY GHOST");
+        // GameState exactly_ghost_decimals = new GameState("DECIMALS", "0", "thirds", 0, true, "day","EXACTLY GHOST");
         switch (GameSetting) {
             case "EXACTLY":
                 scenes.Enqueue(exactly_decimal_limited);
@@ -86,7 +88,7 @@ public class TaskGenerator : MonoBehaviour {
                 break;
             case "EXACTLY GHOST":
                 scenes.Enqueue(exactly_ghost_fractions);
-                scenes.Enqueue(exactly_fraction_limited);
+                scenes.Enqueue(exactly_ghost_decimals);
                 break;
         }
         //if goalScoreValue == 0; Game Compiler will randomly assign a score

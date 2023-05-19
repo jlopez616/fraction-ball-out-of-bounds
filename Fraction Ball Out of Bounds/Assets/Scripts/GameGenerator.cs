@@ -16,8 +16,6 @@ public class GameGenerator : MonoBehaviour
     public GameObject IntroPanel; //Background for intro screen
     public Button introButton;
     public Text introButtonText; //Text for the continue button
-    public InputField enterscore; // temp for submitting score
-    public Button submitscore; // temp for submitting score
 
     public static string playerId; //ID of user
 
@@ -35,7 +33,7 @@ public class GameGenerator : MonoBehaviour
     public GameObject fourths_spaces;
     public GameObject mainCharacter;
     public GameObject blankFourth;
-    public GameObject astronaut;
+    public Texture2D cursor_Astronaut; 
 
     //Numberline Related
     public Image numberLineImage; //should be blank
@@ -98,6 +96,7 @@ public class GameGenerator : MonoBehaviour
     public static double shotValue;
     public static double numberlineScore; // to set numberLine value in numberLineSelect script
     public static bool isExactlyGhost;
+    public static bool checkexactlyghost; // to check if user has set the score
 
     //Queue to store scenes
 
@@ -204,6 +203,8 @@ public class GameGenerator : MonoBehaviour
                     }
 
                     goalScore+= fractionScore;
+                } else {
+                    goalScoreFraction = goalScore.ToString();
                 }
             } else {
                 goalScoreFraction = currentScene.goalScore;
@@ -277,6 +278,7 @@ public class GameGenerator : MonoBehaviour
         // set exactlyGhost mode to true if gameSetting in EXACTLY GHOST
         if(currentScene.gameSetting == "EXACTLY GHOST"){
             isExactlyGhost = true;
+            checkexactlyghost = false;
         }
         goalString = DisplayGoalScore();
         introButton.onClick.RemoveAllListeners();
@@ -376,18 +378,9 @@ public class GameGenerator : MonoBehaviour
             introText_three.text = "";
             introText_four.text = "";
         }else if(currentScene.gameSetting == "EXACTLY GHOST"){
-            // blankFourth.SetActive(true);
-            // astronaut.SetActive(true);
-            enterscore.gameObject.SetActive(true);
-            submitscore.gameObject.SetActive(true);
-            if(currentScene.representation == "FRACTIONS"){
-                fractionCourtLabels.SetActive(false);
-            }else{
-                decimalCourtLabels.SetActive(false);
-            }
-            coachText.text = "";
-            targetText.text = "";
-            submitscore.onClick.AddListener(onScoreSubmit);
+
+            onScoreSubmit();
+            // submitscore.onClick.AddListener(onScoreSubmit);
             
         }else if (Score == goalScore)
         {
@@ -540,18 +533,30 @@ public class GameGenerator : MonoBehaviour
                 }
                 if (ballsRemaining < 1)
                 {
-                    EndGame();
-
+                    if(isExactlyGhost){
+                        setUIExactlyGhost();
+                    } else {
+                        EndGame();
+                    }
+                    
                 }
                 if (Score >= goalScore && ballsRemaining > 0)
                 {
-                    EndGame();
+                    if(isExactlyGhost){
+                        setUIExactlyGhost();
+                    } else {
+                        EndGame();
+                    }
                 }
 
             }else {
                 if (Score >= goalScore)
                 {
-                    EndGame();
+                    if(isExactlyGhost){
+                        setUIExactlyGhost();
+                    } else {
+                        EndGame();
+                    }
                 }
             }
 
@@ -568,31 +573,49 @@ public class GameGenerator : MonoBehaviour
         
     }
      // temp func to check if score entered matches the goalstring
-    void onScoreSubmit(){
-        
-        string userscore = enterscore.text;
+    public void setUIExactlyGhost(){
+        shootButton.SetActive(false);
+        Cursor.SetCursor(cursor_Astronaut,new Vector2(32 / 2, 32 / 2),CursorMode.Auto);
+        ballsLeft.SetActive(false);
+        ballOne.SetActive(false);
+        fourths_spaces.SetActive(false);
+        blankFourth.SetActive(true);
+        if(currentScene.representation == "FRACTIONS"){
+            fractionCourtLabels.SetActive(false);
+        }else{
+            decimalCourtLabels.SetActive(false);
+        }
+        coachText.text = "";
+        targetText.text = "";
         IntroUI.SetActive(true);
         IntroPanel.SetActive(true);
+        introText_one.text = "Please click on the NumberLine to Guess your Score";
         introText_two.text = "";
         introText_three.text = "";
         introText_four.text = "";
+        if(checkexactlyghost == true){
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            blankFourth.SetActive(false);
+            EndGame();
+        }
+        
+    }
+    public void onScoreSubmit(){
+        string userscore = numberlineScore.ToString();
         // Debug.Log(userscore);
         // Debug.Log("goal"+goalString);
-        if(userscore != goalString){ 
-            introText_one.text = "Oh no you guessed wrong score, the actual target was " + goalString;
-        }else{
-            string temp_score = Score.ToString();
-            introText_one.text = "Oh no you entered wrong score, the actual score you secured was " + Score;
-            if(currentScene.representation == "FRACTIONS"){
-                temp_score = ScoreToFraction(Score);
-                introText_one.text = "Oh no you entered wrong score, the actual score you secured was " + ScoreToFraction(Score);
-            }
-            if(userscore == temp_score){
-                introText_one.text = "Congratulations! You got “exactly” " + goalString + " points!";
-            }
+
+        if(Score == numberlineScore){
+            introText_one.text = "You guessed your Score Right";
+        }else{  
+            introText_one.text = "You didn't guess your Score Right";          
         }
-        enterscore.gameObject.SetActive(false);
-        submitscore.gameObject.SetActive(false);
+        // string temp_score = ScoreToFraction(Score);
+        if(userscore != goalString){
+           introText_two.text = "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead.";
+        }else{
+            introText_two.text = "Congratulations! You got “exactly” " + goalString + " points!";
+        }
     }
 
 }
