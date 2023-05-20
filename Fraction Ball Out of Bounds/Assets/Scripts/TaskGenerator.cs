@@ -91,6 +91,10 @@ public class TaskGenerator : MonoBehaviour {
         GameState exactly_letters_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY LETTERS");
         GameState exactly_flip_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
         GameState exactly_flip_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
+        GameState exactly_ghost_fractions = new GameState("FRACTIONS", "0", "fourths", 0, true, "day","EXACTLY GHOST");
+        GameState exactly_ghost_decimals = new GameState("DECIMALS", "0", "fourths", 0, true, "day","EXACTLY GHOST");
+        // GameState exactly_ghost_fractions = new GameState("FRACTIONS", "0", "thirds", 0, true, "day","EXACTLY GHOST");
+        // GameState exactly_ghost_decimals = new GameState("DECIMALS", "0", "thirds", 0, true, "day","EXACTLY GHOST");
 
 
 
@@ -148,6 +152,10 @@ public class TaskGenerator : MonoBehaviour {
                 scenes.Enqueue(exactly_letters_decimal_unlimited);
                 scenes.Enqueue(exactly_flip_unlimited);
                 scenes.Enqueue(exactly_flip_limited);
+                break;
+                case "EXACTLY GHOST":
+                scenes.Enqueue(exactly_ghost_fractions);
+                scenes.Enqueue(exactly_ghost_decimals);
                 break;
         }
         //if goalScoreValue == 0; Game Compiler will randomly assign a score

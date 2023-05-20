@@ -104,7 +104,9 @@ public class Shoot : MonoBehaviour
             }   else {
                 newScore = System.Math.Round(GameGenerator.Score + scoreFrom, 2);
             }
-            coachText.text += (GameGenerator.language == "ENGLISH") ? "Success!\n " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore) :  "Éxito!\n " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
+            
+            if(!GameGenerator.isExactlyGhost)
+                coachText.text = "Shot hit! " + GameGenerator.ScoreToFraction(GameGenerator.Score) + "+" + GameGenerator.ScoreToFraction(scoreFrom) + "=" + GameGenerator.ScoreToFraction(newScore);
             missShotAudio.Stop();
             hitShotAudio.Play();
             

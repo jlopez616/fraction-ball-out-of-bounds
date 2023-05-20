@@ -39,6 +39,8 @@ public class GameGenerator : MonoBehaviour
     public GameObject decimalCourtLabels;
     public GameObject fourths_spaces;
     public GameObject mainCharacter;
+    public GameObject blankFourth;
+    public Texture2D cursor_Astronaut; 
 
     //Numberline Related
     public Image numberLineImage; //should be blank
@@ -106,7 +108,9 @@ public class GameGenerator : MonoBehaviour
     public GameState currentScene;
     public static double shotValue;
     public static bool isFractionCourt;
-
+    public static double numberlineScore; // to set numberLine value in numberLineSelect script
+    public static bool isExactlyGhost;
+    public static bool checkexactlyghost; // to check if user has set the score
 
     //Queue to store scenes
     public void GetQueryVariable(string id)
@@ -221,8 +225,6 @@ public class GameGenerator : MonoBehaviour
         }
         Debug.Log(TaskGenerator.scenes.Count);
         currentScene = TaskGenerator.scenes.Peek();
-        Debug.Log(currentScene.representation);
-        Debug.Log(currentScene.limitedShots);
         if(currentScene.gameSetting != "RAPID FIRE"){
             //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
@@ -246,7 +248,7 @@ public class GameGenerator : MonoBehaviour
                     goalScore+= fractionScore;
                 } else {
                     goalScoreFraction = goalScore.ToString();
-                }
+                } 
             } else {
                 goalScoreFraction = currentScene.goalScore;
                 if(currentScene.goalScore.Length == 1) {
@@ -315,8 +317,12 @@ public class GameGenerator : MonoBehaviour
             decimalCourtLabels.SetActive(false);
             fractionCourtLabels.SetActive(true);
         }
-
-        if(currentScene.gameSetting == "EXACTLY LETTERS") {
+        
+        // set exactlyGhost mode to true if gameSetting in EXACTLY GHOST
+        if(currentScene.gameSetting == "EXACTLY GHOST"){
+            isExactlyGhost = true;
+            checkexactlyghost = false;
+        }else if(currentScene.gameSetting == "EXACTLY LETTERS") {
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(exactlyLetters);
         } else {
@@ -481,7 +487,12 @@ public class GameGenerator : MonoBehaviour
                 introText_two.text = "";
                 introText_three.text = "";
                 introText_four.text = "";
-            } else if (Score == goalScore) {
+            }else if(currentScene.gameSetting == "EXACTLY GHOST"){
+
+            onScoreSubmit();
+            // submitscore.onClick.AddListener(onScoreSubmit);
+            
+            }else if (Score == goalScore) {
                 IntroUI.SetActive(true);
                 IntroPanel.SetActive(true);
                 shootButton.SetActive(false);
@@ -608,6 +619,7 @@ public class GameGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         timer += Time.deltaTime;
         if (gameInProgress == true) {
             movement_time = timer;
@@ -646,17 +658,29 @@ public class GameGenerator : MonoBehaviour
                 }
                 if (ballsRemaining < 1)
                 {
-                    EndGame();
-
+                    if(isExactlyGhost){
+                        setUIExactlyGhost();
+                    } else {
+                        EndGame();
+                    }
+                    
                 }
                 if (Score >= goalScore && ballsRemaining > 0)
                 {
-                    EndGame();
+                    if(isExactlyGhost){
+                        setUIExactlyGhost();
+                    } else {
+                        EndGame();
+                    }
                 }
 
             } else {
                 if(flipTermination == true || Score >= goalScore) {
-                    EndGame();
+                    if(isExactlyGhost){
+                        setUIExactlyGhost();
+                    } else {
+                        EndGame();
+                    }
                 }
             }
 
@@ -669,8 +693,53 @@ public class GameGenerator : MonoBehaviour
             // }
 
         }
-
+       
+        
     }
+     // temp func to check if score entered matches the goalstring
+    public void setUIExactlyGhost(){
+        shootButton.SetActive(false);
+        Cursor.SetCursor(cursor_Astronaut,new Vector2(32 / 2, 32 / 2),CursorMode.Auto);
+        ballsLeft.SetActive(false);
+        ballOne.SetActive(false);
+        fourths_spaces.SetActive(false);
+        blankFourth.SetActive(true);
+        if(currentScene.representation == "FRACTIONS"){
+            fractionCourtLabels.SetActive(false);
+        }else{
+            decimalCourtLabels.SetActive(false);
+        }
+        coachText.text = "";
+        targetText.text = "";
+        IntroUI.SetActive(true);
+        IntroPanel.SetActive(true);
+        introText_one.text = "Please click on the NumberLine to Guess your Score";
+        introText_two.text = "";
+        introText_three.text = "";
+        introText_four.text = "";
+        if(checkexactlyghost == true){
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            blankFourth.SetActive(false);
+            EndGame();
+        }
+        
+    }
+    public void onScoreSubmit(){
+        string userscore = numberlineScore.ToString();
+        // Debug.Log(userscore);
+        // Debug.Log("goal"+goalString);
 
+        if(Score == numberlineScore){
+            introText_one.text = "You guessed your Score Right";
+        }else{  
+            introText_one.text = "You didn't guess your Score Right";          
+        }
+        // string temp_score = ScoreToFraction(Score);
+        if(userscore != goalString){
+           introText_two.text = "Oh no, you scored " + ScoreToFraction(Score) + " points. You needed exactly " + goalString + " points instead.";
+        }else{
+            introText_two.text = "Congratulations! You got “exactly” " + goalString + " points!";
+        }
+    }
 
 }
