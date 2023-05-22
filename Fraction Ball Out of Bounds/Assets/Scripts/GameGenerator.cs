@@ -214,14 +214,10 @@ public class GameGenerator : MonoBehaviour
         ballsLeft.SetActive(false);
         InputSequence.SetActive(false);
         Score = 0;
-        GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
-        Log log = new Log("ROUND START", "NO SHOT", Score); // double check this
-        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         if(TaskGenerator.scenes.Count == 0) {
             loadTest();
             return;
         }
-        Debug.Log(TaskGenerator.scenes.Count);
         currentScene = TaskGenerator.scenes.Peek();
         if(currentScene.gameSetting != "RAPID FIRE"){
             //Goal Score Generator Pt. 1
@@ -268,6 +264,7 @@ public class GameGenerator : MonoBehaviour
             goalScore = 10000;
         }
         GameMode = currentScene.representation;
+        notation = currentScene.notation;
         unlimitedShots = !currentScene.limitedShots;
         GameSetting = currentScene.gameSetting;
         user_input = "";
@@ -375,6 +372,9 @@ public class GameGenerator : MonoBehaviour
     }
 
     void startGame() {
+        GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
+        Log log = new Log("ROUND START", "NO SHOT", 0); // double check this
+        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
         // set rapid timer active for RAPID FIRE

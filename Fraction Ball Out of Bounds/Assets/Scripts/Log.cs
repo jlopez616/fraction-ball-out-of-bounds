@@ -11,6 +11,7 @@ public class Log
     public string timeStamp;
     //public string shoot;
     public string representation;
+    public string notation;
     public float x_pos;
     public float y_pos;
     public double shotValue;
@@ -37,6 +38,7 @@ public class Log
         timeStamp = GameGenerator.time;
         //shoot = GameGenerator.lastAction;
         gameMode  = GameGenerator.GameSetting;
+        notation = GameGenerator.notation;
         x_pos = Character.x_pos;
         y_pos = Character.y_pos;
         shotValue = Character.scoreFrom;
