@@ -213,7 +213,7 @@ public class GameGenerator : MonoBehaviour
         ballsLeft.SetActive(false);
         InputSequence.SetActive(false);
         Score = 0;
-        Log log = new Log("PRE-ROUND", "NO SHOT", Score); // double check this
+        Log log = new Log("ROUND START", "NO SHOT", Score); // double check this
         RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         if(TaskGenerator.scenes.Count == 0) {
             loadTest();
@@ -221,8 +221,6 @@ public class GameGenerator : MonoBehaviour
         }
         Debug.Log(TaskGenerator.scenes.Count);
         currentScene = TaskGenerator.scenes.Peek();
-        Debug.Log(currentScene.representation);
-        Debug.Log(currentScene.limitedShots);
         if(currentScene.gameSetting != "RAPID FIRE"){
             //Goal Score Generator Pt. 1
             //If no goalScore is given, assign it a random value between 1 and 5. Otherwise, give it whatever it says.
@@ -270,6 +268,7 @@ public class GameGenerator : MonoBehaviour
         GameMode = currentScene.representation;
         unlimitedShots = !currentScene.limitedShots;
         GameSetting = currentScene.gameSetting;
+        user_input = "";
         //This affects the screen that gives you information about your current round
         // this UI setting is for RAPID FIRE
         if(currentScene.gameSetting == "RAPID FIRE"){
@@ -530,7 +529,7 @@ public class GameGenerator : MonoBehaviour
         } else{
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(scoreConfig);
-            Log log = new Log("POST-ROUND", "NO SHOT", Score); // double check this
+            Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
             RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             TaskGenerator.scenes.Dequeue();
         }
@@ -539,7 +538,7 @@ public class GameGenerator : MonoBehaviour
     void tryMe() {
         user_input = InputSeq.text;
         InputSeq.text = "";
-         Log log = new Log("POST-ROUND", "NO SHOT", Score); // double check this
+         Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
         RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         TaskGenerator.scenes.Dequeue();
         scoreConfig();

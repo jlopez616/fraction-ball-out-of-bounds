@@ -8,7 +8,7 @@ public class Log
     public double Score;
     public double OldScore;
     public string playerID;
-    public string date_and_time;
+    public string timeStamp;
     //public string shoot;
     public string representation;
     public float x_pos;
@@ -24,6 +24,9 @@ public class Log
     //public string amtID;
     public bool unlimitedShots;
     public int ballsLeft;
+    public float total_time;
+    public int round_num_of_shots;
+    public int round_num_of_movements;
 
     // Start is called before the first frame update
 
@@ -31,8 +34,9 @@ public class Log
     {
         actionType = action;
         playerID = GameGenerator.playerId;
-        date_and_time = GameGenerator.time;
+        timeStamp = GameGenerator.time;
         //shoot = GameGenerator.lastAction;
+        gameMode  = GameGenerator.GameSetting;
         x_pos = Character.x_pos;
         y_pos = Character.y_pos;
         shotValue = Character.scoreFrom;
@@ -40,8 +44,7 @@ public class Log
         wasShotHit = shotHit;
         Score = GameGenerator.Score;
         OldScore = priorScore;
-        gameMode = GameGenerator.GameMode;
-        representation = GameGenerator.representation;
+        representation = GameGenerator.GameMode;
         priorScoreDiff = GameGenerator.goalScore - OldScore;
         newScoreDiff = GameGenerator.goalScore - Score;
         goal = GameGenerator.goalScore;
@@ -49,6 +52,9 @@ public class Log
        // amtID = GameGenerator.amtID;
         unlimitedShots = GameGenerator.unlimitedShots;
         ballsLeft = GameGenerator.ballsRemaining;
+        total_time = GameGenerator.total_game_time;
+        round_num_of_shots = GameGenerator.round_num_of_shots;
+        round_num_of_movements = GameGenerator.round_num_of_movements;
 
 }
 }
