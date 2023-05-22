@@ -372,6 +372,7 @@ public class GameGenerator : MonoBehaviour
     }
 
     void startGame() {
+        GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
         Log log = new Log("ROUND START", "NO SHOT", 0); // double check this
         RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
 
@@ -447,6 +448,7 @@ public class GameGenerator : MonoBehaviour
         Shoot.endTime = Time.time;
         total_round_time = movement_time;
         total_game_time += movement_time;
+        movement_time = 0;
         total_num_of_movements += round_num_of_movements;
         total_num_of_shots += round_num_of_shots;
 
@@ -521,7 +523,7 @@ public class GameGenerator : MonoBehaviour
         {
             excess_shots = excess_shots + (round_num_of_shots - getNumberOfBalls(Score));
         }
-        
+        GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
         if (currentScene.gameSetting == "EXACTLY LETTERS") {
             InputSequence.SetActive(true);
             introText_two.text = (language == "ENGLISH") ?  "Enter as many letters as you remember, in the right order, and press continue. " : "Ingrese tantas letras como recuerde, en el orden correcto, y presione continuar. ";
@@ -532,6 +534,7 @@ public class GameGenerator : MonoBehaviour
         } else{
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(scoreConfig);
+            
             Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
             RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             TaskGenerator.scenes.Dequeue();
@@ -541,7 +544,7 @@ public class GameGenerator : MonoBehaviour
     void tryMe() {
         user_input = InputSeq.text;
         InputSeq.text = "";
-         Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
+        Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
         RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         TaskGenerator.scenes.Dequeue();
         scoreConfig();

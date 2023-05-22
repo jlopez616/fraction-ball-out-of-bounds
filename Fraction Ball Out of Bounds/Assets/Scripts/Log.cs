@@ -54,7 +54,7 @@ public class Log
        // amtID = GameGenerator.amtID;
         unlimitedShots = GameGenerator.unlimitedShots;
         ballsLeft = GameGenerator.ballsRemaining;
-        total_time = GameGenerator.total_game_time;
+        total_time = GameGenerator.total_game_time + GameGenerator.movement_time;
         round_num_of_shots = GameGenerator.round_num_of_shots;
         round_num_of_movements = GameGenerator.round_num_of_movements;
 

@@ -5903,7 +5903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0a20ea7ba5e491ebdeaca86792b329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  language: 
   IntroUI: {fileID: 748401499}
   introText_one: {fileID: 579122641}
   introText_two: {fileID: 1408594774}
@@ -5974,6 +5973,7 @@ MonoBehaviour:
   targetText: {fileID: 202165475}
   timerText: {fileID: 33852314}
   ballsLeft: {fileID: 806252949}
+  ballsLeftText: {fileID: 806252951}
   ballOne: {fileID: 532820868}
   ballTwo: {fileID: 1525161406}
   ballThree: {fileID: 1239829103}
