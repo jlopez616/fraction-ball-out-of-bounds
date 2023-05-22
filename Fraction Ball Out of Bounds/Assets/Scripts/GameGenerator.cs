@@ -57,6 +57,7 @@ public class GameGenerator : MonoBehaviour
 
     // Also part of UI; "Balls Left" Related
     public GameObject ballsLeft;
+    public Text ballsLeftText;
     public GameObject ballOne;
     public GameObject ballTwo;
     public GameObject ballThree;
@@ -392,6 +393,8 @@ public class GameGenerator : MonoBehaviour
             ballsRemaining = numberOfBalls;
         }
 
+        ballsLeftText.text = (language == "ENGLISH") ? "Shots Remaining:" : "Tiros Restantes:";
+
         if (GameSetting == "EXACTLY FLIP") {
             Debug.Log("DONE");
             actualFractionCourt = true;
@@ -402,11 +405,11 @@ public class GameGenerator : MonoBehaviour
         // numberline.SetActive(true);
           // display target only when in EXACTLY MODE
         if(!timerActive)
-            targetText.text = (language == "ENGLISH") ?  "Goal \n" + DisplayGoalScore():  "Meta: \n" + DisplayGoalScore();
+            targetText.text = (language == "ENGLISH") ?  "Goal: " + DisplayGoalScore():  "Meta: " + DisplayGoalScore();
         if(GameSetting == "EXACTLY FLIP") {
-            coachText.text = (language == "ENGLISH") ?  "Fraction side!" : "¡El lado de fracción!";
+            coachText.text = (language == "ENGLISH") ?  "Shoot from the fraction side!" : "¡Dispara desde el lado de fracción!";
         } else 
-            coachText.text = (language == "ENGLISH") ? "3..2..1..Shoot!" : "3..2..1..¡Disparar!";
+            coachText.text = (language == "ENGLISH") ? "3..2..1..Shoot!" : "3..2..1..¡Dispara!";
 
         shootButton.SetActive(true);
         IntroPanel.SetActive(false);
@@ -551,6 +554,7 @@ public class GameGenerator : MonoBehaviour
         introText_two.text = "";
         introText_three.text = "";
         introText_four.text = "";
+        navigationButtons.SetActive(false);
     }
 
 
@@ -615,7 +619,7 @@ public class GameGenerator : MonoBehaviour
                 float remainingtime = rapidTotalTime - elapsedTime;
                 // Debug.Log(remainingtime);
                 int remainder = (int) remainingtime;
-                timerText.text = (language == "ENGLISH") ? "Clock: \n " + remainder.ToString() : "Reloj: \n " + remainder.ToString();
+                timerText.text = (language == "ENGLISH") ? "Clock: " + remainder.ToString() : "Reloj: " + remainder.ToString();
                 if(remainingtime<=0.0f){
                     timerActive = false;
                     timerText.text = "";

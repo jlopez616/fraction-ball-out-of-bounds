@@ -39,7 +39,7 @@ public class TaskGenerator : MonoBehaviour {
         //2 is Make it Count
         //3 is Rapid Fire
 
-        bool fourths_scene = true; // set this to true if notation is fourths otherwise false
+        bool fourths_scene = false; // set this to true if notation is fourths otherwise false
 
         if (fourths_scene) {
             if(SceneManager.GetActiveScene().name == "MainScene_3rd") {
@@ -56,41 +56,41 @@ public class TaskGenerator : MonoBehaviour {
 
         // every possible level configuration of the intervention or evaluation will be generated here
         // 
-        // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
-        // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
-        // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
-        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
+        // GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day");
+        // GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day");
+        // GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
+        // GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day");
         // 
 
         // To test thirds condition 
         /*
-        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day");
-        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day");
-        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day");
-        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day");
+        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day");
+        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day");
         */
 
         // rapid fire
-        GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "RAPID FIRE"); 
-        GameState rapid_fire_decimals = new GameState("DECIMALS", "0", "fourths", 0, false, "day", "RAPID FIRE"); 
+        GameState rapid_fire_fractions = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "RAPID FIRE"); 
+        GameState rapid_fire_decimals = new GameState("DECIMALS", "0", "thirds", 0, false, "day", "RAPID FIRE"); 
 
         // To test Exactly flip
-        //GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
-        //GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
-        //GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
-        //GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP"); 
+        //GameState exactly_decimal_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY FLIP");
+        //GameState exactly_decimal_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY FLIP");
+        //GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY FLIP");
+        //GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY FLIP"); 
 
         //May 2023 Study
-        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day", "EXACTLY");
-        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day", "EXACTLY");
-        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY");
-        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY");
-        GameState exactly_letters_decimal_limited = new GameState("DECIMALS", "0", "fourths", 0, true, "day", "EXACTLY LETTERS");
-        GameState exactly_letters_decimal_unlimited = new GameState("DECIMALS", "0", "fourths", 0, false, "day", "EXACTLY LETTERS");
-        GameState exactly_letters_fraction_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY LETTERS");
-        GameState exactly_letters_fraction_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY LETTERS");
-        GameState exactly_flip_unlimited = new GameState("FRACTIONS", "0", "fourths", 0, false, "day", "EXACTLY FLIP");
-        GameState exactly_flip_limited = new GameState("FRACTIONS", "0", "fourths", 0, true, "day", "EXACTLY FLIP");
+        GameState exactly_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day", "EXACTLY");
+        GameState exactly_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day", "EXACTLY");
+        GameState exactly_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY");
+        GameState exactly_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY");
+        GameState exactly_letters_decimal_limited = new GameState("DECIMALS", "0", "thirds", 0, true, "day", "EXACTLY LETTERS");
+        GameState exactly_letters_decimal_unlimited = new GameState("DECIMALS", "0", "thirds", 0, false, "day", "EXACTLY LETTERS");
+        GameState exactly_letters_fraction_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY LETTERS");
+        GameState exactly_letters_fraction_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY LETTERS");
+        GameState exactly_flip_unlimited = new GameState("FRACTIONS", "0", "thirds", 0, false, "day", "EXACTLY FLIP");
+        GameState exactly_flip_limited = new GameState("FRACTIONS", "0", "thirds", 0, true, "day", "EXACTLY FLIP");
 
 
 
