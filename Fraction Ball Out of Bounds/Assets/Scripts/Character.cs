@@ -43,7 +43,7 @@ public class Character : MonoBehaviour
 
                 ShotMeter(character.transform.position);
 
-                GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+                GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
                 x_pos = character.transform.position.x;
                 y_pos = character.transform.position.y;
                 Log log = new Log("MOVE", "", GameGenerator.Score);

@@ -6502,7 +6502,7 @@ MonoBehaviour:
   decimalCourtLabels: {fileID: 1616804732}
   fourths_spaces: {fileID: 1161366398}
   mainCharacter: {fileID: 1063262156}
-  numberLineImage: {fileID: 0}
+  numberLineImage: {fileID: 652395601}
   fractionspriteArray:
   - {fileID: 21300000, guid: d4848bbbb8863445e912bfe7724128d0, type: 3}
   - {fileID: 21300000, guid: 726a60e9c5ce94f1b9da8b9f28659790, type: 3}
@@ -6555,6 +6555,7 @@ MonoBehaviour:
   targetText: {fileID: 1474153386}
   timerText: {fileID: 1509955096}
   ballsLeft: {fileID: 1067307479}
+  ballsLeftText: {fileID: 1067307481}
   ballOne: {fileID: 2026978010}
   ballTwo: {fileID: 1097355683}
   ballThree: {fileID: 1455370171}
