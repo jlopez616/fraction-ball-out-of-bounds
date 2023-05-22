@@ -45,8 +45,8 @@ public class Log
         Score = GameGenerator.Score;
         OldScore = priorScore;
         representation = GameGenerator.GameMode;
-        priorScoreDiff = GameGenerator.goalScore - OldScore;
-        newScoreDiff = GameGenerator.goalScore - Score;
+        //priorScoreDiff = GameGenerator.goalScore - OldScore;
+        //newScoreDiff = GameGenerator.goalScore - Score;
         goal = GameGenerator.goalScore;
         input = GameGenerator.user_input;
        // amtID = GameGenerator.amtID;

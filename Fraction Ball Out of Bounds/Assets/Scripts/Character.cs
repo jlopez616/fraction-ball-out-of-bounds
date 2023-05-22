@@ -44,6 +44,8 @@ public class Character : MonoBehaviour
                 ShotMeter(character.transform.position);
 
                 GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+                x_pos = character.transform.position.x;
+                y_pos = character.transform.position.y;
                 Log log = new Log("MOVE", "", GameGenerator.Score);
                 RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             }
@@ -83,9 +85,6 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        x_pos = character.transform.position.x;
-        y_pos = character.transform.position.y;
-        ShotMeter(character.transform.position);
 
     }
 }
