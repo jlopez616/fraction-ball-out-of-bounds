@@ -98,7 +98,6 @@ public class TaskGenerator : MonoBehaviour {
         switch (GameSetting) {
             case "MAY 2023 STUDY":
                 scenes.Enqueue(rapid_fire_fractions); 
-                
                 GameState[] orderedScenes = {exactly_decimal_limited,
                 exactly_decimal_unlimited,
                 exactly_fraction_limited,

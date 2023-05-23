@@ -86,8 +86,8 @@ public class Character : MonoBehaviour
     void Update()
     {
         ShotMeter(character.transform.position);
-        x_pos = character.transform.position.x;
-        y_pos = character.transform.position.y;
-        Log log = new Log("MOVE", "", GameGenerator.Score);
+       // x_pos = character.transform.position.x;
+       // y_pos = character.transform.position.y;
+       // Log log = new Log("MOVE", "", GameGenerator.Score);
     }
 }

@@ -84,10 +84,10 @@ public class Shoot : MonoBehaviour
                 GameGenerator.actualFractionCourt = !GameGenerator.actualFractionCourt;
             }
              if(GameGenerator.actualFractionCourt == true){
-                    coachText.text = (GameGenerator.language == "ENGLISH") ? "Shoot from the fraction side!" : "Dispara desde el lado de la fracción";
+                    coachText.text = (GameGenerator.language == "ENGLISH") ? "Shoot from the fraction side!\n\n" : "¡Dispara desde el lado de la fracción!\n\n";
                     GameGenerator.GameMode = "FRACTIONS";
                 } else {
-                    coachText.text = (GameGenerator.language == "ENGLISH") ? "Shoot from the decimal side!" : "¡Dispara desde el lado de la decimal!";
+                    coachText.text = (GameGenerator.language == "ENGLISH") ? "Shoot from the decimal side!\n\n" : "¡Dispara desde el lado de la decimal!\n\n";
                     GameGenerator.GameMode = "DECIMALS";
                 }
                 targetText.text =   (GameGenerator.language == "ENGLISH") ? "Goal: " + GameGenerator.DisplayGoalScore() : "Meta: " + GameGenerator.DisplayGoalScore();

@@ -2589,8 +2589,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -168, y: -129}
-  m_SizeDelta: {x: 172.69, y: 70}
+  m_AnchoredPosition: {x: -206.12, y: -92.6}
+  m_SizeDelta: {x: 216.52, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &673705213
 CanvasRenderer:
@@ -2627,7 +2627,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -3588,9 +3588,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Balls Remaining:
-
-    Bolas Restantes:'
+  m_Text: 
 --- !u!222 &1067307482
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5009,8 +5007,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -168, y: -40}
-  m_SizeDelta: {x: 172.69, y: 40}
+  m_AnchoredPosition: {x: -206.12, y: -27.4407}
+  m_SizeDelta: {x: 216.52, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1474153385
 CanvasRenderer:
@@ -5047,7 +5045,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

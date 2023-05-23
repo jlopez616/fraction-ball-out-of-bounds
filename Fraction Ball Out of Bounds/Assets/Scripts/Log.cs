@@ -18,8 +18,8 @@ public class Log
     public string wasShotHit;
     public float shotProbability;
     public string gameMode;
-    public double priorScoreDiff;
-    public double newScoreDiff;
+    //public double priorScoreDiff;
+    //public double newScoreDiff;
     public double goal;
     public string input;
     //public string amtID;
