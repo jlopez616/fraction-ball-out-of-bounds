@@ -47,7 +47,7 @@ public class Character : MonoBehaviour
                 x_pos = character.transform.position.x;
                 y_pos = character.transform.position.y;
                 Log log = new Log("MOVE", "", GameGenerator.Score);
-                RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+                RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             }
         }
     }

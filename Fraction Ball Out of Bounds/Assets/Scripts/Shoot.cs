@@ -76,7 +76,7 @@ public class Shoot : MonoBehaviour
 
                 GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
                 Log log2 = new Log("FLIP", shotHit, oldScore);
-                RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log2);
+                RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log2);
                 return;
             }
             GameGenerator.shotcount+=1;
@@ -131,7 +131,7 @@ public class Shoot : MonoBehaviour
             GameGenerator.Score = newScore;
         }
         Log log = new Log("SHOT", shotHit, oldScore);
-        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+        RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
         
         if (GameGenerator.unlimitedShots == false)
         {

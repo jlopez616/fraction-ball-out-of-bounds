@@ -373,7 +373,7 @@ public class GameGenerator : MonoBehaviour
     void startGame() {
         GameGenerator.time = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
         Log log = new Log("ROUND START", "NO SHOT", 0); // double check this
-        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+        RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
 
         fourths_spaces.SetActive(true); //spaces.SetActive(true) TODO: Fix
         // set rapid timer active for RAPID FIRE
@@ -535,7 +535,7 @@ public class GameGenerator : MonoBehaviour
             introButton.onClick.AddListener(scoreConfig);
             
             Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
-            RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+            RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
             TaskGenerator.scenes.Dequeue();
         }
     }
@@ -563,14 +563,14 @@ public class GameGenerator : MonoBehaviour
                 }
             }
         }
-        introText_one.text = "Actual Sequence " + sequence + " \nYour sequence " + user_input;
-        introText_two.text = (language == "ENGLISH") ?  "Number of Characters in Correct Sequence " +  correct_seq.ToString() : " ";
-        introText_four.text = (language == "ENGLISH") ?  "Number of Characters guessed right " +  character_match.ToString() : " ";
+        introText_one.text = (language == "ENGLISH") ? "Actual Sequence: " + sequence + " \nYour Sequence: " + user_input : "Secuencia Real: " + sequence + " \nSu Secuencia: " + user_input;
+        introText_two.text = (language == "ENGLISH") ?  "Number of Characters in Correct Sequence: " +  correct_seq.ToString() : "Número de Caracteres en la Secuencia Correcta: " +  correct_seq.ToString();
+        introText_four.text = (language == "ENGLISH") ?  "Number of Characters Guessed Correctly: " +  character_match.ToString() : "Número de Caracteres Adivinados Correctamente: " +  character_match.ToString();
         introButtonText.text = (language == "ENGLISH") ? "Continue" : "Continuar";
         InputSequence.SetActive(false);
         introButton.onClick.AddListener(exactlyLettersTermination);
         Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
-        RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+        RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/ + GameGenerator.playerId + "/fball.json", log);
     }
 
     void exactlyLettersTermination(){
