@@ -570,7 +570,7 @@ public class GameGenerator : MonoBehaviour
         InputSequence.SetActive(false);
         introButton.onClick.AddListener(exactlyLettersTermination);
         Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
-        RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/ + GameGenerator.playerId + "/fball.json", log);
+        RestClient.Post("https://fraction-ball-2023-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
     }
 
     void exactlyLettersTermination(){
