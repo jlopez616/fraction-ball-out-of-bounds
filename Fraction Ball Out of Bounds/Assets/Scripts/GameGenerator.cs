@@ -99,6 +99,7 @@ public class GameGenerator : MonoBehaviour
     public double extraDecimal;
     public static string goalString;
     public static string goalScoreFraction;
+    public static string sequence;
     public int numberOfBalls;
     public static bool unlimitedShots;
     public static int ballsRemaining;
@@ -212,7 +213,6 @@ public class GameGenerator : MonoBehaviour
     void scoreConfig()
     {
         ballsLeft.SetActive(false);
-        InputSequence.SetActive(false);
         Score = 0;
         if(TaskGenerator.scenes.Count == 0) {
             loadTest();
@@ -326,8 +326,7 @@ public class GameGenerator : MonoBehaviour
     }
 
     void exactlyLetters() {
-
-        string sequence = "";
+        sequence = "";
         if (currentScene.notation == "thirds") {
             if (currentScene.representation == "DECIMALS") {
                 if (currentScene.limitedShots){
@@ -530,7 +529,7 @@ public class GameGenerator : MonoBehaviour
             introText_four.text = "";
             introButtonText.text = (language == "ENGLISH") ? "Continue" : "Continuar";
             introButton.onClick.RemoveAllListeners();
-            introButton.onClick.AddListener(tryMe);
+            introButton.onClick.AddListener(exactlyLettersAccuracy);
         } else{
             introButton.onClick.RemoveAllListeners();
             introButton.onClick.AddListener(scoreConfig);
@@ -541,11 +540,40 @@ public class GameGenerator : MonoBehaviour
         }
     }
 
-    void tryMe() {
-        user_input = InputSeq.text;
+    void exactlyLettersAccuracy() {
+        user_input = InputSeq.text.Trim().ToUpper();
         InputSeq.text = "";
+        int i=0,j=0,correct_seq=0,character_match=0;
+        while(i<sequence.Length && j<user_input.Length){
+            if(user_input[j]==' '){
+                j++;
+                continue;
+            }
+            if(user_input[j]==sequence[i]){
+                correct_seq++;
+            }
+            j++;i+=2;
+        }
+
+        for(i=0;i<sequence.Length;i+=2){
+            for(j=0;j<System.Math.Min(10,user_input.Length);j++){
+                if(sequence[i]==user_input[j]){
+                    character_match++;
+                    break;
+                }
+            }
+        }
+        introText_one.text = "Actual Sequence " + sequence + " \nYour sequence " + user_input;
+        introText_two.text = (language == "ENGLISH") ?  "Number of Characters in Correct Sequence " +  correct_seq.ToString() : " ";
+        introText_four.text = (language == "ENGLISH") ?  "Number of Characters guessed right " +  character_match.ToString() : " ";
+        introButtonText.text = (language == "ENGLISH") ? "Continue" : "Continuar";
+        InputSequence.SetActive(false);
+        introButton.onClick.AddListener(exactlyLettersTermination);
         Log log = new Log("ROUND END", "NO SHOT", Score); // double check this
         RestClient.Post("https://fraction-ball-2023-test-default-rtdb.firebaseio.com/" + GameGenerator.playerId + "/fball.json", log);
+    }
+
+    void exactlyLettersTermination(){
         TaskGenerator.scenes.Dequeue();
         scoreConfig();
     }
